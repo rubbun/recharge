@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView  xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:scrollbars="none">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:paddingBottom="10dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="30dp"
+    android:weightSum="1"
+    tools:ignore="HardcodedText" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:weightSum="1" >
+
+        <EditText
+            android:id="@+id/et_insurance_std_code"
+            android:layout_width="120dp"
+            android:layout_height="40dp"
+            android:hint="STD Code"
+            android:imeOptions="actionNext"
+            android:inputType="number"
+            android:background="@xml/rounded_input_box"
+            android:paddingLeft="3dp"
+            android:singleLine="true"
+            android:paddingRight="3dp"  >
+        </EditText>
+
+        <EditText
+            android:id="@+id/et_insurance_landline_no"
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:hint="Landline Number"
+            android:imeOptions="actionNext"
+            android:inputType="number"
+            android:background="@xml/rounded_input_box"
+            android:paddingLeft="3dp"
+            android:singleLine="true"
+            android:paddingRight="3dp"  >
+        </EditText>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:weightSum="1" >
+
+        <EditText
+            android:id="@+id/et_landline_acc_no"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:hint="Account Number"
+            android:imeOptions="actionNext"
+            android:inputType="number"
+            android:background="@xml/rounded_input_box"
+            android:paddingLeft="3dp"
+            android:singleLine="true"
+            android:paddingRight="3dp"  >
+        </EditText>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:weightSum="1" >
+
+        <Spinner
+            android:id="@+id/sp_landline_operator"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:prompt="@string/select_landline_operator_option" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:weightSum="1" >
+
+        <EditText
+            android:id="@+id/et_landline_amount"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:hint="Amount"
+            android:imeOptions="actionNext"
+            android:inputType="number"
+            android:background="@xml/rounded_input_box"
+            android:paddingLeft="3dp"
+            android:singleLine="true"
+            android:paddingRight="3dp"  >
+        </EditText>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:weightSum="1" >
+
+        <Spinner
+            android:id="@+id/sp_landline_route"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:entries="@array/root_array_option"
+            android:prompt="@string/select_landline_route_option" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_landline_recharge"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/green_button"
+        android:text="Recharge"
+        android:textColor="#ffffff"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+</LinearLayout>
+</ScrollView>

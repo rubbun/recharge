@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Recharge</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="select_option">Select Services</string>
+
+    <string-array name="service_arrays">
+        <item>Antivirus Recharge</item>
+        <item>Datacard Recharge</item>
+        <item>DTH Recharge</item>
+        <item>Electricity Bill Payment</item>
+        <item>Gas Bill Payment</item>
+        <item>Insurance Bill Payment</item>
+        <item>Landline Bill Payment</item>
+        <item>Mobile Recharge</item>
+        <item>Postpaid Bill</item>
+    </string-array>
+
+    <string name="select_antivirus_products_option">Select Products</string>
+
+    <string-array name="root_array_option">
+        <item>Default</item>
+        <item>BackUp</item>
+    </string-array>
+    <string-array name="postpaid_array_option">
+        <item>AIRTEL</item>
+        <item>BSNL</item>
+        <item>IDEA</item>
+        <item>VODAFONE</item>
+        <item>RELIANCE GSM</item>
+        <item>RELIANCE CDMA</item>
+        <item>TATA DOCOMO GSM</item>
+        <item>TATA INDICOM (CDMA)</item>
+        <item>LOOP</item>
+    </string-array>
+    <string-array name="mobile_option_arrays">
+        <item>AIRTEL</item>
+        <item>BSNL</item>
+        <item>BSNL SPECIAL</item>
+        <item>IDEA</item>
+        <item>VODAFONE</item>
+        <item>RELIANCE CDMA</item>
+        <item>RELIANCE GSM</item>
+        <item>UNINOR</item>
+        <item>UNINOR SPECIAL</item>
+        <item>MTS</item>
+        <item>AIRCEL</item>
+        <item>TATA DOCOMO GSM</item>
+        <item>TATA DOCOMO GSM SPECIAL</item>
+        <item>TATA INDICOM (CDMA)</item>
+        <item>MTNL DELHI</item>
+        <item>MTNL DELHI SPECIAL</item>
+        <item>MTNL MUMBAI</item>
+        <item>MTNL MUMBAI SPECIAL</item>
+        <item>LOOP</item>
+        <item>VIDEOCON</item>
+        <item>VIDEOCON SPECIAL</item>
+        <item>VIRGIN GSM</item>
+        <item>VIRGIN GSM SPECIAL</item>
+        <item>VIRGIN CDMA</item>
+        <item>T24</item>
+        <item>T24 SPECIAL</item>
+        <item>TATA WALKY</item>
+    </string-array>
+    <string-array name="electricity_operator_option_arrays">
+        <item>ANDHRA PRADESH CENTRAL POWER</item>
+        <item>SOUTHERN POWER CO.LTD</item>
+        <item>BSES RAJDHANI DELHI</item>
+        <item>BSES YAMUNA DELHI</item>
+        <item>NDPL DELHI</item>
+        <item>CESC LTD</item>
+        <item>CHHATISGARH STATE POWER</item>
+        <item>DAKSHIN GUJARAT VIJ CO.LTD</item>
+        <item>MADHYA GUJARAT VIJ CO.LTD</item>
+        <item>UTTAR GUJARAT VIJ CO.LTD</item>
+        <item>PASCHIM GUJARAT VIJ CO.LTD</item>
+        <item>TORRENT POWER</item>
+        <item>JAIPUR VIDYUT VITARAN</item>
+        <item>JODHPUR VIDHYUT VITRAN</item>
+        <item>MAHARASTRA STATE ELECTRICITY</item>
+        <item>RELIANCE ENERGY LTD MUMBAI</item>
+        <item>BRIHANMUMBAI ELECTRIC SUPPLY &amp; TRANSPORT</item>
+        <item>UTTAR PRADESH POWER CO.LTD</item>
+        <item>MADHYA PRADESH ELECTRICITY</item>
+    </string-array>
+    <string-array name="gas_option_arrays">
+        <item>INDRAPRASTHA GAS LTD</item>
+        <item>MAHANAGAR GAS LTD</item>
+        <item>GUJARAT GAS COMPANY LIMITED</item>
+    </string-array>
+    <string-array name="antivirus_products_option_arrays">
+        <item>NORTON MOBILE SECURITY - 1 YEAR (RS.599)</item>
+        <item>NORTON PC INTERNET SECURITY - 1 YEAR (RS.1399)</item>
+        <item>QUICK HEAL MOBILE SECURITY FOR ANDROID - 1 YEAR (RS.599)</item>
+        <item>QUICK HEAL MOBILE SECURITY FOR BLACKBERRY - 1 YEAR (RS.599)</item>
+        <item>QUICK HEAL TOTAL SECURITY FOR ANDROID - 1 YEAR (RS.749)</item>
+        <item>QUICK HEAL TABLET SECURITY FOR ANDROID - 1 YEAR (RS.849)</item>
+        <item>QUICK HEAL MOBILE SECURITY FOR ANDROID - 2 YEAR (RS.899)</item>
+        <item>QUICK HEAL MOBILE SECURITY FOR BLACKBERRY - 2 YEAR (RS.899)</item>
+        <item>QUICK HEAL TOTAL SECURITY FOR ANDROID - 2 YEAR (RS.1149)</item>
+        <item>QUICK HEAL TABLET SECURITY FOR ANDROID - 2 YEAR (RS.1249)</item>
+    </string-array>
+
+    <string name="select_antivirus_route_option">Select Routes</string>
+    <string name="select_datacard_operator_option">Select Operator</string>
+
+    <string-array name="datacard_operator_option_arrays">
+        <item>Datacard 1</item>
+        <item>Datacard 2</item>
+        <item>Datacard 3</item>
+    </string-array>
+
+    <string name="select_datacard_route_option">Select Routes</string>
+    <string name="select_dth_route_option">Select Routes</string>
+    <string name="select_dth_operator_option">Select Operator</string>
+
+    <string-array name="dth_operator_option_arrays">
+        <item>AIRTEL DTH</item>
+        <item>SUN DIRECT DTH</item>
+        <item>TATA SKY</item>
+        <item>DISH TV</item>
+        <item>RELIANCE BIG TV</item>
+        <item>VIDEOCON D2H</item>
+    </string-array>
+
+    <string name="select_electricity_operator_option">Select Operator</string>
+    <string name="select_electricity_route_option">Select Routes</string>
+
+    <string-array name="datacard_recharge_operator_option">
+        <item>AIRTEL</item>
+        <item>BSNL</item>
+        <item>IDEA</item>
+        <item>VODAFONE</item>
+        <item>RELIANCE CDMA</item>
+        <item>UNINOR</item>
+        <item>MTS</item>
+        <item>AIRCEL</item>
+        <item>TATA INDICOM (CDMA)</item>
+        <item>MTNL DELHI</item>
+        <item>MTNL MUMBAI</item>
+        <item>LOOP</item>
+        <item>VIDEOCON</item>
+    </string-array>
+    <string-array name="datacard_recharge_route_option">
+        <item>Routes 1</item>
+        <item>Routes 2</item>
+        <item>Routes 3</item>
+    </string-array>
+
+    <string name="select_gas_operator_option">Select Operator</string>
+
+    <string-array name="gas_recharge_operator_option">
+        <item>Operator 1</item>
+        <item>Operator 2</item>
+        <item>Operator 3</item>
+    </string-array>
+    <string-array name="insurance_operator_option">
+        <item>ICICI PRUDENTIAL LIFE</item>
+        <item>TATA AIA LIFE</item>
+        <item>PNB METLIFE INDIA CO. LTD</item>
+        <item>LIFE INSURANCE CORPORATION</item>
+    </string-array>
+    <string-array name="select_landline_operator_option">
+        <item>AIRTEL LANDLINE AND BROADBAND</item>
+        <item>BSNL LANDLINE AND BROADBAND</item>
+        <item>RELIANCE LANDLINE</item>
+        <item>TATA LANDLINE</item>
+        <item>MTNL DELHI LANDLINE</item>
+        <item>TIKONA INTERNET</item>
+    </string-array>
+
+    <string name="select_gas_route_option">Select Routes</string>
+    <string name="select_insurance_operator_option">Select Operator</string>
+    <string name="select_insurance_route_option">Select Routes</string>
+    <string name="select_landline_route_option">Select Routes</string>
+    <string name="select_landline_operator_option">Select Operator</string>
+    <string name="select_mobile_operator_option">Select Operator</string>
+    <string name="select_mobile_route_option">Select Routes</string>
+    <string name="select_postpaid_operator_option">Select Operator</string>
+    <string name="select_postpaid_route_option">Select Routes</string>
+
+</resources>
