@@ -48,7 +48,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:prompt="@string/select_mobile_operator_option" />
+            android:prompt="@string/service_provider" />
     </LinearLayout>
 
 

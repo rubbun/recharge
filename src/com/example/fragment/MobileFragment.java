@@ -5,7 +5,6 @@ import java.util.List;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,20 +13,18 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
-import android.widget.AdapterView.OnItemSelectedListener;
 
-import com.example.Interface.IService;
 import com.example.constant.Constant;
+import com.example.dialog.MobileRechargeDialog;
 import com.example.network.RechargeHttpClient;
 import com.example.recharge.BaseActivity;
 import com.example.recharge.R;
-import com.example.recharge.SignInActivity;
-import com.example.recharge.StatsActivity;
 
 public class MobileFragment extends Fragment implements OnClickListener{
 	
@@ -40,12 +37,11 @@ public class MobileFragment extends Fragment implements OnClickListener{
 	private Button btn_mobile_recharge;
 	private String product_code,route_value,recharge_amount, mobileno;
 	private String st[] ;
-	private IService iService ;
 	private String orderid = "",operator_name= "",number= "",amount= "",SUCCESS= "",operatorid= "",balance= "",time = "";
 	
 	public MobileFragment(BaseActivity base){
 	this.base  = base;	
-	iService = (IService) base ;
+	
 	}
 	
 	@Override
@@ -168,11 +164,32 @@ public class MobileFragment extends Fragment implements OnClickListener{
 	case R.id.btn_mobile_recharge:
 		
 			if(isValid()){
-					if(base.app.getUserinfo().mode==1){
-						new MobileAsyanTask().execute();
-					}else{
-						base.sendOfflineSMS(product_code+" "+et_mobile_no.getText().toString().trim()+" "+et_mobile_amount.getText().toString().trim() );
+				
+				AlertDialog.Builder alert = new AlertDialog.Builder(base);
+				alert.setMessage("Are you sure, you want to recharge now?");
+				alert.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.dismiss();
+						if(base.app.getUserinfo().mode==1){
+							new MobileAsyncTask().execute();
+						}else{
+							base.sendOfflineSMS(product_code+" "+et_mobile_no.getText().toString().trim()+" "+et_mobile_amount.getText().toString().trim() );
+						}
+						
 					}
+				});
+				
+				alert.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						
+						dialog.dismiss();
+					}
+				});
+				alert.show();
 				}
 		
 		
@@ -193,7 +210,7 @@ public class MobileFragment extends Fragment implements OnClickListener{
 		return true;
 	}
 	
-	public class MobileAsyanTask extends AsyncTask<Void, Void, Boolean>{
+	public class MobileAsyncTask extends AsyncTask<Void, Void, Boolean>{
 
 		protected void onPreExecute() {
 			base.showProgressDailog();
@@ -216,27 +233,16 @@ public class MobileFragment extends Fragment implements OnClickListener{
 		protected void onPostExecute(Boolean result) {
 			base.dismissProgressDialog();
 			if (result) {
-				Toast.makeText(base, "Success....", 5000).show();
-				 orderid = st[1];
-				 operator_name= st[2];
-				 number= st[3];
-				 amount= st[4];
-				 SUCCESS= st[5];
-				 operatorid= st[6];
-				 balance= st[7];
-				 time = st[8];
+				et_mobile_no.setText("");
+				et_mobile_amount.setText("");
+				new MobileRechargeDialog(base, true, st[1], st[2], st[3], st[4], st[8]).show();
+				
+				
 			} else {
-				Toast.makeText(base, "Failed.... "+st[1], 5000).show();
-				 orderid = "";
-				 operator_name= "";
-				 number= "";
-				 amount= "";
-				 SUCCESS= "";
-				 operatorid= "";
-				 balance= "";
-				 time = "";
-			}
-			iService.goToMobileRechargeStatus(result,orderid,operator_name,number,amount,SUCCESS,operatorid,balance,time); 
+				
+				new MobileRechargeDialog(base, false, st[1]).show();
+						}
+			//iService.goToMobileRechargeStatus(result,orderid,operator_name,number,amount,SUCCESS,operatorid,balance,time); 
 		}		
 	}
 

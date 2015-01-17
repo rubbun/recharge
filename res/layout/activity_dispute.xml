@@ -68,7 +68,7 @@
                     android:paddingLeft="3dp"
                     android:singleLine="true"
                     android:paddingRight="3dp"
-                    android:hint="Enter order number" >
+                    android:hint="Enter order id" >
                 </EditText>
 
                 <Button

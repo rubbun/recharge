@@ -2,20 +2,20 @@ package com.example.recharge;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.constant.Constant;
 import com.example.network.RechargeHttpClient;
 
 public class ProfileActivity extends BaseActivity {
 	private TextView tv_name, tv_mobile_number, tv_userid, tv_current_balance, tv_total_earning;
-	private String name, userid, email, mobile, mainbal, totalearn;
+	private String name, userid, email, mobile, mainbal, totalearn,failedMessage;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -42,13 +42,17 @@ public class ProfileActivity extends BaseActivity {
 			if (response != null) {
 				if (response.startsWith("SUCCESS")) {
 					String st[] = response.split(",");
-					userid = st[0];
-					name = st[1];
-					email = st[2];
-					mobile = st[3];
-					mainbal = st[4];
-					totalearn = st[5];
+					userid = st[1];
+					name = st[2];
+					email = st[3];
+					mobile = st[4];
+					mainbal = st[5];
+					totalearn = st[6];
 					return true;
+				}else if(response.startsWith("FAILED")){
+					String st[] = response.split(",");
+					failedMessage = st[1];
+					return false;
 				}
 			}
 
@@ -65,12 +69,18 @@ public class ProfileActivity extends BaseActivity {
 				tv_total_earning.setText(totalearn);
 
 			} else {
-				Toast.makeText(getApplicationContext(), "failed to fetch information", Toast.LENGTH_LONG).show();
-				ProfileActivity.this.finish();
+				new AlertDialog.Builder(ProfileActivity.this)
+				.setTitle("Alert Message")
+				.setMessage(failedMessage)
+				.setPositiveButton("Ok", new OnClickListener() {
+					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						ProfileActivity.this.finish();
+					}
+				});
 			}
-
 		}
-
 	}
 
 	public String getParams() {

@@ -2,11 +2,13 @@ package com.example.recharge;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.telephony.SmsManager;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Toast;
@@ -18,6 +20,7 @@ import com.example.constant.Constant;
 public class BaseActivity extends FragmentActivity implements OnClickListener {
 	public ProgressDialog prsDlg;
 	public Appsettings app = null;
+	//SUCCESS,2102185047370587136,rechargedive.com
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -69,5 +72,21 @@ public class BaseActivity extends FragmentActivity implements OnClickListener {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setMessage("Appplication will send 1 sms and your sim will be charge for sending sms").setPositiveButton("Ok", dialogClickListener)
 		    .setNegativeButton("Cancel", dialogClickListener).show();
+	}
+	
+	public boolean isConnectingToInternet(){
+		ConnectivityManager connectivity = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+		  if (connectivity != null) 
+		  {
+			  NetworkInfo[] info = connectivity.getAllNetworkInfo();
+			  if (info != null) 
+				  for (int i = 0; i < info.length; i++) 
+					  if (info[i].getState() == NetworkInfo.State.CONNECTED)
+					  {
+						  return true;
+					  }
+
+		  }
+		  return false;
 	}
 }

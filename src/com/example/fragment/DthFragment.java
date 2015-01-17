@@ -3,13 +3,9 @@ package com.example.fragment;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.example.constant.Constant;
-import com.example.fragment.AntivirusFragment.AntivirusAsyanTask;
-import com.example.network.RechargeHttpClient;
-import com.example.recharge.BaseActivity;
-import com.example.recharge.R;
-
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -18,12 +14,19 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
-import android.widget.AdapterView.OnItemSelectedListener;
+
+import com.example.constant.Constant;
+import com.example.dialog.MobileRechargeDialog;
+import com.example.fragment.MobileFragment.MobileAsyncTask;
+import com.example.network.RechargeHttpClient;
+import com.example.recharge.BaseActivity;
+import com.example.recharge.R;
 
 @SuppressLint("ValidFragment")
 public class DthFragment extends Fragment implements OnClickListener{
@@ -72,17 +75,17 @@ public class DthFragment extends Fragment implements OnClickListener{
 					int pos, long arg3) {
 				
 				if(pos == 0){
-					sub_id = "AD";
+					operator = "AD";
 				}else if(pos == 1){
-					sub_id = "SD";
+					operator = "SD";
 				}else if(pos == 2){
-					sub_id = "TS";
+					operator = "TS";
 				}else if(pos == 3){
-					sub_id = "DT";
+					operator = "DT";
 				}else if(pos == 4){
-					sub_id = "BT";
+					operator = "BT";
 				}else if(pos == 5){
-					sub_id = "VT";
+					operator = "VT";
 				}
 			}
 			@Override
@@ -124,21 +127,47 @@ public class DthFragment extends Fragment implements OnClickListener{
 		// TODO Auto-generated method stub
 		if(v == btn_dth_recharge){
 			if(validateDthRecharge(et_dth_sub_id.getText().toString().trim(),et_dth_amount.getText().toString().trim())){
-				//Do Something
-				dth_amount = et_dth_amount.getText().toString().trim();
-				if(base.app.getUserinfo().mode == 1){
-					new DthAsyanTask().execute();
-				}else{
-					base.sendOfflineSMS(sub_id+" "+et_dth_sub_id.getText().toString().trim()+" "+et_dth_amount.getText().toString().trim());
-				}
+				
+				AlertDialog.Builder alert = new AlertDialog.Builder(base);
+				alert.setMessage("Are you sure, you want to recharge now?");
+				alert.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.dismiss();
+						dth_amount = et_dth_amount.getText().toString().trim();
+						if(base.app.getUserinfo().mode == 1){
+							new DthAsyanTask().execute();
+						}else{
+							base.sendOfflineSMS(sub_id+" "+et_dth_sub_id.getText().toString().trim()+" "+et_dth_amount.getText().toString().trim());
+						}
+						
+					}
+				});
+				
+				alert.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						
+						dialog.dismiss();
+					}
+				});
+				alert.show();	
+				
+				
+				
+				
+				
+				
 			}
 		}
 	}
 	
 	private boolean validateDthRecharge(String sub_id,String amount) {
 		// TODO Auto-generated method stub
-		if(sub_id.length()==0){
-			et_dth_sub_id.setError("Please enter Sub Id");
+		if(sub_id.length()<5){
+			et_dth_sub_id.setError("Please enter 5 digit Subscriber ID");
 			return false;
 		}else if(amount.length()==0){
 			et_dth_amount.setError("Please enter Amount");
@@ -155,7 +184,8 @@ public class DthFragment extends Fragment implements OnClickListener{
 
 		protected Boolean doInBackground(Void... params) {
 
-			String url = Constant.PROFILE + getParams();
+			String url = Constant.SERVICE + getParams();
+			System.out.println("!! "+url);
 			String response = RechargeHttpClient.SendHttpPost(url);
 			st = response.split(",");
 			if (response != null) {
@@ -170,14 +200,20 @@ public class DthFragment extends Fragment implements OnClickListener{
 		protected void onPostExecute(Boolean result) {
 			base.dismissProgressDialog();
 			if (result) {
-				Toast.makeText(base, "Success....", 5000).show();
+				et_dth_sub_id.setText("");
+				et_dth_amount.setText("");
+				new MobileRechargeDialog(base, true, st[1], st[2], st[3], st[4], st[8]).show();
+				
+				
 			} else {
-				Toast.makeText(base, "Failed.... "+st[1], 5000).show();
-			}
+				
+				new MobileRechargeDialog(base, false, st[1]).show();
+						}
 		}		
 	}
 	
 	public String getParams() {
-		return "tokenkey=" + base.app.getUserinfo().token + "&website=rechargedive.com" + "&optcode="+sub_id + "&amount="+dth_amount + "&route="+route_value;
+		
+		return "tokenkey=" + base.app.getUserinfo().token + "&website=rechargedive.com" + "&optcode="+operator +"&service="+et_dth_sub_id.getText().toString().trim()+ "&amount="+dth_amount + "&route="+route_value;
 	}
 }

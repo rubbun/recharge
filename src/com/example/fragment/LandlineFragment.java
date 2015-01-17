@@ -24,6 +24,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemSelectedListener;
 
+@SuppressWarnings("unused")
 public class LandlineFragment extends Fragment implements OnClickListener{
 	
 	private BaseActivity base;

@@ -29,8 +29,15 @@ public class SplashActivity extends BaseActivity {
 		case R.id.btn_online:
 
 			if (app.getUserinfo().token != null) {
-				//Intent i = new Intent(SplashActivity.this, DashBoardActivity.class);
+				
+				/*app.getUserinfo().setToken("2102185047370587136");
+				app.getUserinfo().setMode(Constant.ONLINE);
 				Intent i = new Intent(SplashActivity.this, ServiceActivity.class);
+				startActivity(i);
+				SplashActivity.this.finish();*/
+				
+				
+				Intent i = new Intent(SplashActivity.this, DashBoardActivity.class);
 				app.getUserinfo().setMode(Constant.ONLINE);
 				startActivity(i);
 				SplashActivity.this.finish();

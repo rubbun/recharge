@@ -3,6 +3,7 @@ package com.example.recharge;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,6 +18,8 @@ public class StatsActivity extends BaseActivity{
 		tv_earning = (TextView)findViewById(R.id.tv_earning);
 		tv_sale = (TextView)findViewById(R.id.tv_sale);
 		tv_load = (TextView)findViewById(R.id.tv_load);
+		
+		
 	}
 	
 	
@@ -62,4 +65,23 @@ public class StatsActivity extends BaseActivity{
         }  
     } 
 
+    public class CallStatsService extends AsyncTask<Void, Void, Void>{
+
+    	@Override
+    	protected void onPreExecute() {
+    		super.onPreExecute();
+    		showProgressDailog();
+    	}
+    	
+		@Override
+		protected Void doInBackground(Void... params) {
+			return null;
+		}
+    	
+		@Override
+		protected void onPostExecute(Void result) {
+			super.onPostExecute(result);
+			dismissProgressDialog();
+		}
+    }
 }

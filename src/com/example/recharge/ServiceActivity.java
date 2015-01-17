@@ -3,18 +3,6 @@ package com.example.recharge;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.example.Interface.IService;
-import com.example.fragment.AntivirusFragment;
-import com.example.fragment.DatacardFragment;
-import com.example.fragment.DthFragment;
-import com.example.fragment.ElectricityFragment;
-import com.example.fragment.GasFragment;
-import com.example.fragment.InsuranceFragment;
-import com.example.fragment.LandlineFragment;
-import com.example.fragment.MobileFragment;
-import com.example.fragment.PostpaidFragment;
-import com.example.fragment.StatusFragment;
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -30,9 +18,18 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import android.widget.Toast;
 
-public class ServiceActivity extends BaseActivity implements IService{
+import com.example.fragment.AntivirusFragment;
+import com.example.fragment.DatacardFragment;
+import com.example.fragment.DthFragment;
+import com.example.fragment.ElectricityFragment;
+import com.example.fragment.GasFragment;
+import com.example.fragment.InsuranceFragment;
+import com.example.fragment.LandlineFragment;
+import com.example.fragment.MobileFragment;
+import com.example.fragment.PostpaidFragment;
+
+public class ServiceActivity extends BaseActivity {
 
 	public List<String> list = new ArrayList<String>();
 	private Spinner services;
@@ -53,7 +50,7 @@ public class ServiceActivity extends BaseActivity implements IService{
 		adapter.setDropDownViewResource(R.layout.spinner_item);
 		services.setAdapter(adapter);
 		
-		services.setSelection(7);
+		services.setSelection(0);
 
 		services.setOnItemSelectedListener(new OnItemSelectedListener() {
 
@@ -72,35 +69,38 @@ public class ServiceActivity extends BaseActivity implements IService{
 	private void displayView(int position) {
 		Fragment fragment = null;
 		switch (position) {
+		
 		case 0:
-			fragment = new AntivirusFragment(this);
+			fragment = new MobileFragment(this);
 			break;
 			
 		case 1:
-			fragment = new DatacardFragment(this);
+			fragment = new DthFragment(this);
 			break;
 			
 		case 2:
-			fragment = new DthFragment(this);
+			fragment = new DatacardFragment(this);
 			break;
 		case 3:
-			fragment = new ElectricityFragment(this);
+			fragment = new PostpaidFragment(this);
 			break;
 		case 4:
-			fragment = new GasFragment(this);
+			fragment = new LandlineFragment(this);
 			break;
 		case 5:
-			fragment = new InsuranceFragment(this);
+			fragment = new ElectricityFragment(this);
 			break;	
 		case 6:
-			fragment = new LandlineFragment(this);
+			fragment = new GasFragment(this);
 			break;	
 		case 7:
-			fragment = new MobileFragment(this);
+			fragment = new InsuranceFragment(this);
 			break;
 		case 8:
-			fragment = new PostpaidFragment(this);
+			fragment = new AntivirusFragment(this);
 			break;			
+		
+		
 			
 		}
 
@@ -155,27 +155,6 @@ public class ServiceActivity extends BaseActivity implements IService{
         }  
     }
 
-	@Override
-	public void goToMobileRechargeStatus(Boolean result, String orderid, String operator_name, String number, String amount, String success, String operatorid, String balance, String time) {
-		// TODO Auto-generated method stub
-		Fragment fragment = null;
-		FragmentTransaction transaction  ;
-		fragment = new StatusFragment(this);
-		Bundle bundle = new Bundle();
-		bundle.putBoolean("result", result);
-		bundle.putString("orderid", orderid);
-		bundle.putString("operator_name", operator_name);
-		bundle.putString("number", number);
-		bundle.putString("amount", amount);
-		bundle.putString("success", success);
-		bundle.putString("operatorid", operatorid);
-		bundle.putString("balance", balance);
-		bundle.putString("time", time);
-		fragment.setArguments(bundle);
-		transaction = getSupportFragmentManager().beginTransaction();
-		transaction.replace(R.id.frame_container, fragment);
-		transaction.addToBackStack(null);
-		transaction.commit();
-	} 
+	
 
 }

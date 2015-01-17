@@ -77,9 +77,7 @@ public class DisputeActivity extends BaseActivity{
 				Toast.makeText(getApplicationContext(), "failed to Submit Order", Toast.LENGTH_LONG).show();
 				
 			}
-
 		}
-
 	}
 
 	public String getParams() {
@@ -119,7 +117,6 @@ public class DisputeActivity extends BaseActivity{
             	AlertDialog.Builder builder = new AlertDialog.Builder(this);
             	builder.setMessage("Are you Want to logged out ?").setPositiveButton("Yes", dialogClickListener)
             	    .setNegativeButton("No", dialogClickListener).show();
-              
               
             return true;     
           

@@ -3,6 +3,8 @@ package com.example.fragment;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -19,7 +21,9 @@ import android.widget.Toast;
 import android.widget.AdapterView.OnItemSelectedListener;
 
 import com.example.constant.Constant;
+import com.example.dialog.MobileRechargeDialog;
 import com.example.fragment.AntivirusFragment.AntivirusAsyanTask;
+import com.example.fragment.MobileFragment.MobileAsyncTask;
 import com.example.network.RechargeHttpClient;
 import com.example.recharge.BaseActivity;
 import com.example.recharge.R;
@@ -136,12 +140,38 @@ public class DatacardFragment extends Fragment implements OnClickListener{
 		switch (v.getId()) {
 		case R.id.btn_datacard_recharge:
 			if(isvalid()){
-				if(base.app.getUserinfo().mode == 1){
-					new DatacardAsyanTask().execute();
-				}else{
-					base.sendOfflineSMS(product_code+" "+et_datacard_amount.getText().toString().trim()+" "+et_datacard_phone.getText().toString().trim());
-				}			
-				}
+				
+				AlertDialog.Builder alert = new AlertDialog.Builder(base);
+				alert.setMessage("Are you sure, you want to recharge now?");
+				alert.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.dismiss();
+						if(base.app.getUserinfo().mode == 1){
+							new DatacardAsyanTask().execute();
+						}else{
+							base.sendOfflineSMS(product_code+" "+et_datacard_amount.getText().toString().trim()+" "+et_datacard_phone.getText().toString().trim());
+						}	
+						
+					}
+				});
+				
+				alert.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						
+						dialog.dismiss();
+					}
+				});
+				alert.show();
+				
+						
+				
+			
+			
+			}
 			break;
 
 	
@@ -183,18 +213,23 @@ public class DatacardFragment extends Fragment implements OnClickListener{
 		protected void onPostExecute(Boolean result) {
 			base.dismissProgressDialog();
 			if (result) {
-				Toast.makeText(base, "Success....", 5000).show();
+				et_datacard_phone.setText("");
+				et_datacard_amount.setText("");
+				new MobileRechargeDialog(base, true, st[1], st[2], st[3], st[4], st[8]).show();
+				
+				
 			} else {
-				Toast.makeText(base, "Failed.... "+st[1], 5000).show();
-			}
+				
+				new MobileRechargeDialog(base, false, st[1]).show();
+						}
 		}		
 	}
 
 	
 	 
 	public String getParams() {
-		String recharge_amount = et_datacard_phone.getText().toString().trim();
-		String mobileno = et_datacard_amount.getText().toString().trim();
+		String mobileno = et_datacard_phone.getText().toString().trim();
+		String recharge_amount = et_datacard_amount.getText().toString().trim();
 		return "tokenkey="+base.app.getUserinfo().token+"&website=rechargedive.com&optcode="+product_code+"&service="+mobileno+"&amount="+recharge_amount+"&route="+route_value;
 		//return "tokenkey=" + base.app.getUserinfo().token + "&website=rechargedive.com" + "&optcode="+product_code + "&amount="+recharge_amount + "&route="+route_value;
 	}

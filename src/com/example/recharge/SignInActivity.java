@@ -36,14 +36,14 @@ public class SignInActivity extends BaseActivity {
 	public void onClick(View arg0) {
 		switch (arg0.getId()) {
 		case R.id.btn_login:
-			if (isvalid()) {
-				
-				/*app.getUserinfo().setToken("67112665241631888");
-				Intent i = new Intent(SignInActivity.this, ServiceActivity.class);
-				startActivity(i);
-				SignInActivity.this.finish();*/
-				new SignInAsyncTask().execute();
+			if(isConnectingToInternet()){
+				if (isvalid()) {				
+					new SignInAsyncTask().execute();
+				}
+			}else{
+				Toast.makeText(getApplicationContext(), "No Internet connection", Toast.LENGTH_LONG).show();
 			}
+			
 
 			break;
 

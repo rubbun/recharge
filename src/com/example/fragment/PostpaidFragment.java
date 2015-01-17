@@ -3,27 +3,31 @@ package com.example.fragment;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.example.constant.Constant;
-import com.example.fragment.MobileFragment.MobileAsyanTask;
-import com.example.network.RechargeHttpClient;
-import com.example.recharge.BaseActivity;
-import com.example.recharge.R;
-
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
-import android.widget.AdapterView.OnItemSelectedListener;
 
-public class PostpaidFragment extends Fragment{
+import com.example.constant.Constant;
+import com.example.dialog.MobileRechargeDialog;
+import com.example.fragment.DatacardFragment.DatacardAsyanTask;
+import com.example.network.RechargeHttpClient;
+import com.example.recharge.BaseActivity;
+import com.example.recharge.R;
+
+public class PostpaidFragment extends Fragment implements OnClickListener{
 	
 	private BaseActivity base;
 	public List<String> OptList = new ArrayList<String>();
@@ -49,7 +53,7 @@ public class PostpaidFragment extends Fragment{
 		et_mobile_amount = (EditText)v.findViewById(R.id.et_postpaid_amount);
 		sp_mobile_route = (Spinner)v.findViewById(R.id.sp_postpaid_route);
 		btn_mobile_recharge = (Button)v.findViewById(R.id.btn_postpaid_recharge);
-		
+		btn_mobile_recharge.setOnClickListener(this);
 		String[] mobile_array = getResources().getStringArray(R.array.postpaid_array_option);
 		for (int i = 0; i < mobile_array.length; i++) {
 			OptList.add(mobile_array[i]);
@@ -119,15 +123,44 @@ public class PostpaidFragment extends Fragment{
 
 	public void onClick(View arg0) {
 	switch (arg0.getId()) {
-	case R.id.btn_mobile_recharge:
+	case R.id.btn_postpaid_recharge:
 		
 		if(isValid()){
-			if(base.app.getUserinfo().mode == 1){
-				new PostPaidAsyanTask().execute();
-			}else{
-				base.sendOfflineSMS(product_code+" "+et_mobile_no.getText().toString().trim()+" "+et_mobile_amount.getText().toString().trim());	
-			}
 			
+			AlertDialog.Builder alert = new AlertDialog.Builder(base);
+			alert.setMessage("Are you sure, you want to recharge now?");
+			alert.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();
+					if(base.app.getUserinfo().mode == 1){
+						new PostPaidAsyanTask().execute();
+					}else{
+						base.sendOfflineSMS(product_code+" "+et_mobile_no.getText().toString().trim()+" "+et_mobile_amount.getText().toString().trim());	
+					}
+					
+					
+				}
+			});
+			
+			alert.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					
+					dialog.dismiss();
+				}
+			});
+			alert.show();
+			
+					
+			
+			
+			
+			
+		
+		
 		}
 		break;
 
@@ -169,10 +202,15 @@ public class PostpaidFragment extends Fragment{
 		protected void onPostExecute(Boolean result) {
 			base.dismissProgressDialog();
 			if (result) {
-				Toast.makeText(base, "Success....", 5000).show();
+				et_mobile_amount.setText("");
+				et_mobile_no.setText("");
+				new MobileRechargeDialog(base, true, st[1], st[2], st[3], st[4], st[8]).show();
+				
+				
 			} else {
-				Toast.makeText(base, "Failed.... "+st[1], 5000).show();
-			}
+				
+				new MobileRechargeDialog(base, false, st[1]).show();
+						}
 		}		
 	}
 
