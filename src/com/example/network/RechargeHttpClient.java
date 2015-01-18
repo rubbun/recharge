@@ -48,6 +48,7 @@ public class RechargeHttpClient {
 				String resultString = convertStreamToString(instream);
 				instream.close();
 				resultString = resultString.substring(0, resultString.length() - 1);
+				System.out.println("!!token code:"+resultString);
 				return resultString;
 			}
 

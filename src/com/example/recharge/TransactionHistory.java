@@ -6,19 +6,30 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
+
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup.LayoutParams;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,9 +47,9 @@ public class TransactionHistory extends BaseActivity {
 	private Spinner spinner_transtion_history;
 
 	static final int DATE_PICKER_ID = 1111;
-	private int year;
-	private int month;
-	private int day;
+	private String year;
+	private String month;
+	private String day;
 	
 	private int current_year;
 	private int current_month;
@@ -72,6 +83,7 @@ public class TransactionHistory extends BaseActivity {
 
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+				
 				selection_value = spinner_transtion_history.getItemAtPosition(arg2).toString();
 			}
 
@@ -89,6 +101,8 @@ public class TransactionHistory extends BaseActivity {
 
 		btn_history_search = (Button) findViewById(R.id.btn_history_search);
 		btn_history_search.setOnClickListener(this);
+		
+		
 	}
 
 	@Override
@@ -121,7 +135,7 @@ public class TransactionHistory extends BaseActivity {
 					showAlertMessage("End Date Can't greater than Current date");
 					//Toast.makeText(TransactionHistory.this, "End Date Can't greater than Current date",6000).show();
 				}else{
-					
+					new FetchTransactionList().execute();
 				}
 			}
 			break;
@@ -193,19 +207,26 @@ public class TransactionHistory extends BaseActivity {
         public void onDateSet(DatePicker view, int selectedYear,
                 int selectedMonth, int selectedDay) {
              
-            year  = selectedYear;
-            month = selectedMonth;
-            day   = selectedDay;
+            year  = ""+selectedYear;
+            month = ""+(selectedMonth+1);
+            day   = ""+selectedDay;
+            
+            if(day.length() == 1){
+            	day = "0"+day;
+            }
+            if(month.length() == 1){
+            	month = "0"+ month;
+            }
  
             // Show selected date
             
             if(selection_type == 0){
             	tv_start_date.setText(new StringBuilder().append(year)
-                        .append("-").append(month + 1).append("-").append(day)
+                        .append("-").append(month).append("-").append(day)
                         .append(" "));
             }else if(selection_type == 1){
             	tv_end_date.setText(new StringBuilder().append(year)
-                        .append("-").append(month + 1).append("-").append(day)
+                        .append("-").append(month).append("-").append(day)
                         .append(" "));
             }
            }
@@ -220,8 +241,41 @@ public class TransactionHistory extends BaseActivity {
         	}
 			@Override
 			protected Void doInBackground(Void... params) {
-				String url = Constant.DISPUTE + getParams();
-				
+				String url = Constant.TRANSACTION + getParams();
+				System.out.println("!!url is:"+url);
+				try{
+				 Document doc = Jsoup.connect(url).get();
+			        Elements table = doc.select("table");
+			        Elements trs = doc.select("tr");
+			        
+			        for(int i=0;i<trs.size(); i++){
+			        	
+			        	if(i== 0){
+			        		continue;
+			        	}
+			        	
+			        	Elements tds = trs.get(i).select("td");
+			        	for(int j=0 ;j<tds.size(); j++){
+			        		
+			        		String order_id= tds.get(0).text();
+			        		String operator= tds.get(1).text();
+			        		String service_no= tds.get(2).text();
+			        		String amount= tds.get(3).text();
+			        		String status= tds.get(4).text();
+			        		String date_time= tds.get(5).text();
+			        		String profit= tds.get(6).text();
+			        		String optId= tds.get(7).text();
+			        		String detail= tds.get(8).text();
+			        		arrayList.add(new HistoryBean(order_id, operator, service_no, amount, status, date_time, profit, optId, detail));
+			        		
+			        		
+			        		System.out.println("!!val ==== "+j+"    "+tds.get(j).text());
+			        	}
+			        	
+			        }
+				}catch(Exception e){
+					
+				}
 				return null;
 			}
         
@@ -229,13 +283,42 @@ public class TransactionHistory extends BaseActivity {
 			protected void onPostExecute(Void result) {
 				super.onPostExecute(result);
 				dismissProgressDialog();
+				if(arrayList!=null){
+					showLListDialog();
+				}
+				
 			}
         }
         
+        private void showLListDialog() {
+        	final Dialog customDialog = new Dialog(TransactionHistory.this);
+        	customDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        	customDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        	customDialog.setContentView(R.layout.dialog_trans_history_list);
+        	Window window = customDialog.getWindow();
+        	window.setLayout(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+            customDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        	ListView lv_historyList = (ListView)customDialog.findViewById(R.id.lv_history_list);
+        	adapter = new TransHistoryAdapter(TransactionHistory.this, R.layout.trans_history_row, arrayList);
+        	lv_historyList.setAdapter(adapter);
+        	Button btn_ok = (Button)customDialog.findViewById(R.id.btn_ok);
+        	btn_ok.setOnClickListener(new View.OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					customDialog.dismiss();
+				}
+			});
+        	customDialog.show();
+		}
         public String getParams() {
 
-        	//String fdate = end_date
-    		//return "website=rechargedive.com&tokenkey="+app.getUserinfo().token+"&fdate="+ordernumber;
-        	return null;
+        	String fdate = start_date.replace("-", "");
+        	String tdate = end_date.replace("-", "");
+        	if(selection_value.contains("All")){
+        		return "website=rechargedive.com&tokenkey="+app.getUserinfo().token+"&fdate="+fdate+"&tdate="+tdate+"&rowz=0";
+        	}else{
+        		return "website=rechargedive.com&tokenkey="+app.getUserinfo().token+"&fdate="+fdate+"&tdate="+tdate+"&rowz="+selection_value;
+        	}
     	}
 }

@@ -1,8 +1,12 @@
 package com.example.recharge;
 
+import com.example.constant.Constant;
+import com.example.network.RechargeHttpClient;
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -11,7 +15,7 @@ import android.widget.LinearLayout;
 
 public class DashBoardActivity extends BaseActivity {
 
-	private LinearLayout ll_services, ll_transhistory, ll_dispute, ll_profile, ll_stats;
+	private LinearLayout ll_services, ll_transhistory, ll_dispute, ll_profile, ll_stats,ll_logout;
 	private Intent mIntent;
 
 	@Override
@@ -33,6 +37,9 @@ public class DashBoardActivity extends BaseActivity {
 
 		ll_stats = (LinearLayout) findViewById(R.id.ll_stats);
 		ll_stats.setOnClickListener(this);
+		
+		ll_logout= (LinearLayout) findViewById(R.id.ll_logout);
+		ll_logout.setOnClickListener(this);
 
 	}
 
@@ -69,6 +76,12 @@ public class DashBoardActivity extends BaseActivity {
 			startActivity(mIntent);
 
 			break;
+		case R.id.ll_logout:
+			new LogoutAsynctask().execute();
+			/*mIntent = new Intent(DashBoardActivity.this, StatsActivity.class);
+			startActivity(mIntent);*/
+
+			break;
 		}
 	}
 	
@@ -76,7 +89,7 @@ public class DashBoardActivity extends BaseActivity {
     @Override  
     public boolean onCreateOptionsMenu(Menu menu) {  
         // Inflate the menu; this adds items to the action bar if it is present.  
-        getMenuInflater().inflate(R.menu.main, menu);//Menu Resource, Menu  
+       // getMenuInflater().inflate(R.menu.main, menu);//Menu Resource, Menu  
         return true;  
     }  
     @Override  
@@ -114,6 +127,46 @@ public class DashBoardActivity extends BaseActivity {
                 return super.onOptionsItemSelected(item);  
         }  
     } 
+    
+	public class LogoutAsynctask extends AsyncTask<Void, Void, Boolean> {
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			showProgressDailog();
+		}
+
+		@Override
+		protected Boolean doInBackground(Void... params) {
+
+			String url = Constant.LOGOUT + getParams();
+			String response = RechargeHttpClient.SendHttpPost(url);
+			if (response != null) {
+				if (response.startsWith("SUCCESS")) {
+					
+					return true;
+				}
+			}
+			return false;
+		}
+
+		@Override
+		protected void onPostExecute(Boolean result) {
+			super.onPostExecute(result);
+			dismissProgressDialog();
+			if(result){
+				app.getUserinfo().setToken("");
+				
+				Intent mIntent1 = new Intent(DashBoardActivity.this, SignInActivity.class);
+				startActivity(mIntent1);
+				DashBoardActivity.this.finish();
+			}
+		}
+
+	}
+	
+	public String getParams() {
+		return "tokenkey="+app.getUserinfo().token+"&website=rechargedive.com";
+	}
 
 
 }

@@ -91,7 +91,7 @@ public class SignInActivity extends BaseActivity {
 			dismissProgressDialog();
 			if (result) {
 				//Intent i = new Intent(SignInActivity.this, DashBoardActivity.class);
-				Intent i = new Intent(SignInActivity.this, ServiceActivity.class);
+				Intent i = new Intent(SignInActivity.this, DashBoardActivity.class);
 				startActivity(i);
 				SignInActivity.this.finish();
 			}else{

@@ -32,7 +32,7 @@ public class StatsActivity extends BaseActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);// Menu Resource, Menu
+		//getMenuInflater().inflate(R.menu.main, menu);// Menu Resource, Menu
 		return true;
 	}
 

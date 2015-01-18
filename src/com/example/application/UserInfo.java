@@ -8,14 +8,16 @@ import com.example.constant.Constant;
 
 public class UserInfo {
 
-	public String token = null;
+	//01-19 02:10:48.560: I/System.out(4237): !!token code:SUCCESS,953084063302639616,rechargedive.com
+
+	public String token = "";
 	public int mode = 0;
 	public SharedPreferences preference = null;
 
 	public UserInfo(Context ctx) {
 
 		preference = ctx.getSharedPreferences(Constant.values.USRINFO.name(), Context.MODE_PRIVATE);
-		token = preference.getString(Constant.values.TOKEN.name(), null);
+		token = preference.getString(Constant.values.TOKEN.name(), token);
 		mode = preference.getInt(Constant.values.MODE.name(), 0);
 	}
 

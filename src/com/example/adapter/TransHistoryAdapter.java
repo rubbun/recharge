@@ -26,7 +26,9 @@ public class TransHistoryAdapter extends ArrayAdapter<HistoryBean>{
 	public TransHistoryAdapter(TransactionHistory activity, int textViewResourceId,	ArrayList<HistoryBean> items) {
 		super(activity, textViewResourceId, items);
 		this.mItems = items;
-		this.activity =activity;		
+		this.activity =activity;	
+		
+		System.out.println("!!reach here:"+mItems);
 	}		  
 	
 	@Override

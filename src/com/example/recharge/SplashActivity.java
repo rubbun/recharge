@@ -20,7 +20,7 @@ public class SplashActivity extends BaseActivity {
 		btn_offline = (Button) findViewById(R.id.btn_offline);
 		btn_online.setOnClickListener(this);
 		btn_offline.setOnClickListener(this);
-		;
+		
 	}
 
 	@Override
@@ -28,33 +28,32 @@ public class SplashActivity extends BaseActivity {
 		switch (arg0.getId()) {
 		case R.id.btn_online:
 
-			if (app.getUserinfo().token != null) {
-				//http://jolo.in/b2bapp/dorc.php?tokenkey=2102185047370587136&website=rechargedive.com&optcode=ATL&service=2451577&amount=100&route=1&other1=1232&other2=011
-				app.getUserinfo().setToken("2102185047370587136");
+			if (app.getUserinfo().token.length() >1) {
+				/*app.getUserinfo().setToken("2102185047370587136");
 				app.getUserinfo().setMode(Constant.ONLINE);
 				Intent i = new Intent(SplashActivity.this, DashBoardActivity.class);
 				startActivity(i);
-				SplashActivity.this.finish();
+				SplashActivity.this.finish();*/
 				
 				
-				/*Intent i = new Intent(SplashActivity.this, DashBoardActivity.class);
+				Intent i = new Intent(SplashActivity.this, DashBoardActivity.class);
 				app.getUserinfo().setMode(Constant.ONLINE);
 				startActivity(i);
-				SplashActivity.this.finish();*/
+				SplashActivity.this.finish();
 			} else {
 				
 				
-				app.getUserinfo().setToken("2102185047370587136");
+				/*app.getUserinfo().setToken("2102185047370587136");
 				app.getUserinfo().setMode(Constant.ONLINE);
 				Intent i = new Intent(SplashActivity.this, DashBoardActivity.class);
 				startActivity(i);
-				SplashActivity.this.finish();
+				SplashActivity.this.finish();*/
 				
 				
-				/*Intent i = new Intent(SplashActivity.this, SignInActivity.class);
+				Intent i = new Intent(SplashActivity.this, SignInActivity.class);
 				app.getUserinfo().setMode(Constant.ONLINE);
 				startActivity(i);
-				SplashActivity.this.finish();*/
+				SplashActivity.this.finish();
 			}
 
 			break;
