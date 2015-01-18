@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -21,7 +23,9 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.constant.Constant;
+import com.example.dialog.MobileRechargeDialog;
 import com.example.fragment.GasFragment.GasAsyanTask;
+import com.example.fragment.PostpaidFragment.PostPaidAsyanTask;
 import com.example.network.RechargeHttpClient;
 import com.example.recharge.BaseActivity;
 import com.example.recharge.R;
@@ -148,12 +152,42 @@ public class ElectricityFragment extends Fragment implements OnClickListener{
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
 		if(v == btn_electricity_recharge){
+			
 			if(validateElectricityRecharge(et_electricity_service_no.getText().toString().trim(),et_electricity_amount.getText().toString().trim())){
-				if(base.app.getUserinfo().mode == 1){
-					new ElectricityAsyanTask().execute();
-				}else{
-					base.sendOfflineSMS(product_code+" "+et_electricity_service_no.getText().toString().trim()+" "+et_electricity_amount.getText().toString().trim());
-				}
+				
+				
+				
+				
+				AlertDialog.Builder alert = new AlertDialog.Builder(base);
+				alert.setMessage("Are you sure, you want to recharge now?");
+				alert.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.dismiss();
+						if(base.app.getUserinfo().mode == 1){
+							new ElectricityAsyanTask().execute();
+						}else{
+							base.sendOfflineSMS(product_code+" "+et_electricity_service_no.getText().toString().trim()+" "+et_electricity_amount.getText().toString().trim());
+						}						
+						
+					}
+				});
+				
+				alert.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						
+						dialog.dismiss();
+					}
+				});
+				alert.show();
+				
+				
+				
+				
+				
 			}
 		}
 	}
@@ -181,10 +215,15 @@ public class ElectricityFragment extends Fragment implements OnClickListener{
 		protected void onPostExecute(Boolean result) {
 			base.dismissProgressDialog();
 			if (result) {
-				Toast.makeText(base, "Success....", 5000).show();
+				et_electricity_service_no.setText("");
+				et_electricity_amount.setText("");
+				new MobileRechargeDialog(base, true, st[1], st[2], st[3], st[4], st[8]).show();
+				
+				
 			} else {
-				Toast.makeText(base, "Failed.... "+st[1], 5000).show();
-			}
+				
+				new MobileRechargeDialog(base, false, st[1]).show();
+						}
 		}		
 	}
 	
@@ -201,7 +240,9 @@ public class ElectricityFragment extends Fragment implements OnClickListener{
 		return true;
 	}
 	public String getParams() {
-		//return "tokenkey=" + base.app.getUserinfo().token + "&website=rechargedive.com" + "&optcode="+product_code + "&amount="+recharge_amount + "&route="+route_value;
-		return null;
+		
+		String serviceNo = et_electricity_service_no.getText().toString().trim();
+		String amount = et_electricity_amount.getText().toString().trim();
+		return "tokenkey="+base.app.getUserinfo().token+"&website=rechargedive.com&optcode="+product_code+"&service="+serviceNo+"&amount="+amount+"&route="+route_value;
 	}
 }

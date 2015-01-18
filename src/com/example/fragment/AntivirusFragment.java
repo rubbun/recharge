@@ -2,8 +2,11 @@ package com.example.fragment;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -20,6 +23,8 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.constant.Constant;
+import com.example.dialog.MobileRechargeDialog;
+import com.example.fragment.DthFragment.DthAsyanTask;
 import com.example.network.RechargeHttpClient;
 import com.example.recharge.BaseActivity;
 import com.example.recharge.R;
@@ -29,7 +34,7 @@ public class AntivirusFragment extends Fragment implements OnClickListener{
 	
 	private Button btn_antivirus_recharge ;
 	private Spinner sp_antivirus_product , sp_antivirus_route;
-	private EditText et_antivirus_amount ;
+	private EditText et_customer_mobile,et_email_id,et_name ;
 	private String product_code,route_value,recharge_amount = null;
 	
 	private BaseActivity base;
@@ -37,6 +42,8 @@ public class AntivirusFragment extends Fragment implements OnClickListener{
 	public List<String> routeList = new ArrayList<String>();
 	private String st[] ;
 	
+	private int price;
+	public static final String EMAIL_PATTERN ="^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 	@SuppressLint("ValidFragment")
 	public AntivirusFragment(BaseActivity base){
 	this.base  = base;	
@@ -66,23 +73,33 @@ public class AntivirusFragment extends Fragment implements OnClickListener{
 				
 				if(pos == 0){
 					product_code = "NR1";
+					price = 599;
 				}else if(pos == 1){
 					product_code = "NR2";
+					price = 1399;
 				}else if(pos == 2){
 					product_code = "QH1";
+					price = 599;
 				}else if(pos == 3){
 					product_code = "QH2";
+					price = 599;
 				}else if(pos == 4){
 					product_code = "QH3";
+					price = 749;
 				}else if(pos == 5){
 					product_code = "QH4";
+					price = 849;
 				}else if(pos == 6){
+					price = 899;
 					product_code = "QH5";
 				}else if(pos == 7){
+					price = 899;
 					product_code = "QH6";
 				}else if(pos == 8){
+					price = 1149;
 					product_code = "QH7";
 				}else if(pos == 9){
+					price = 1249;
 					product_code = "QH8";
 				}
 			}
@@ -117,7 +134,9 @@ public class AntivirusFragment extends Fragment implements OnClickListener{
 			}
 		});
 		
-		et_antivirus_amount = (EditText)v.findViewById(R.id.et_antivirus_amount) ;
+		et_customer_mobile = (EditText)v.findViewById(R.id.et_customer_mobile) ;
+		et_email_id = (EditText)v.findViewById(R.id.et_email_id) ;
+		et_name = (EditText)v.findViewById(R.id.et_name) ;
 		btn_antivirus_recharge.setOnClickListener(this);
 		
 		return v;
@@ -127,13 +146,41 @@ public class AntivirusFragment extends Fragment implements OnClickListener{
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
 			if(v == btn_antivirus_recharge){
-				if(validateAntivirusRecharge(et_antivirus_amount.getText().toString().trim())){
-					recharge_amount = et_antivirus_amount.getText().toString().trim();
-					if(base.app.getUserinfo().mode == 1){
-						new AntivirusAsyanTask().execute();
-					}else{
-						base.sendOfflineSMS(product_code+" ");
-					}
+				if(isvalid()){
+					
+					
+					AlertDialog.Builder alert = new AlertDialog.Builder(base);
+					alert.setMessage("Are you sure, you want to recharge now?");
+					alert.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+						
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							dialog.dismiss();
+							if(base.app.getUserinfo().mode == 1){
+								new AntivirusAsyanTask().execute();
+							}else{
+								base.sendOfflineSMS(product_code+" ");
+							}
+							
+						}
+					});
+					
+					alert.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+						
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							
+							dialog.dismiss();
+						}
+					});
+					alert.show();	
+						
+					
+					
+					
+					
+					
+					
 				}
 			}
 	}
@@ -146,7 +193,8 @@ public class AntivirusFragment extends Fragment implements OnClickListener{
 
 		protected Boolean doInBackground(Void... params) {
 
-			String url = Constant.PROFILE + getParams();
+			String url = Constant.SERVICE + getParams();
+			System.out.println("!! +"+url);
 			String response = RechargeHttpClient.SendHttpPost(url);
 			st = response.split(",");
 			if (response != null) {
@@ -161,23 +209,45 @@ public class AntivirusFragment extends Fragment implements OnClickListener{
 		protected void onPostExecute(Boolean result) {
 			base.dismissProgressDialog();
 			if (result) {
-				Toast.makeText(base, "Success....", 5000).show();
+				et_customer_mobile.setText("");
+				et_email_id.setText("");
+				et_name.setText("");
+				new MobileRechargeDialog(base, true, st[1], st[2], st[3], st[4], st[8]).show();
+				
+				
 			} else {
-				Toast.makeText(base, "Failed.... "+st[1], 5000).show();
-			}
+				
+				new MobileRechargeDialog(base, false, st[1]).show();
+						}
 		}		
 	}
 
-	private boolean validateAntivirusRecharge(String amount) {
-		// TODO Auto-generated method stub
-		if(amount.length()==0){
-			et_antivirus_amount.setError("Please enter Amount");
-			return false;
-		}
-		return true;
-	}
+	
 	 
 	public String getParams() {
-		return "tokenkey=" + base.app.getUserinfo().token + "&website=rechargedive.com" + "&optcode="+product_code + "&amount="+recharge_amount + "&route="+route_value;
+		
+		String mobile = et_customer_mobile.getText().toString().trim();
+		String email = et_email_id.getText().toString().trim();
+		String name = et_name.getText().toString().trim();
+		return "tokenkey=" + base.app.getUserinfo().token + "&website=rechargedive.com&optcode="+product_code+"&service="+mobile+"&amount="+price+"&route="+route_value+"&other1="+email+"&other2="+name.replaceAll(" ", "%20");
+	}
+	
+	public boolean isvalid(){
+		boolean flag = true;
+		if(et_customer_mobile.getText().toString().trim().length()<10){
+			et_customer_mobile.setError("Please enter valid phone number");
+			flag = false;
+		}else if(!isvalidMailid(et_email_id.getText().toString().trim())){
+			et_email_id.setError("Please enter valid email");
+			flag = false;
+		}else if(et_name.getText().toString().trim().length()==0){
+			et_name.setError("Please enter valid email");
+			flag = false;
+		}
+		return flag;
+	}
+	
+	public  boolean isvalidMailid(String mail) {		
+		return Pattern.compile(EMAIL_PATTERN).matcher(mail).matches();
 	}
 }

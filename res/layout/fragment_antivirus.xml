@@ -38,12 +38,50 @@
         android:weightSum="1" >
 
         <EditText
-            android:id="@+id/et_antivirus_amount"
+            android:id="@+id/et_customer_mobile"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:hint="Amount"
+            android:hint="Customer Mobile"
             android:imeOptions="actionNext"
             android:inputType="number"
+            android:background="@xml/rounded_input_box"
+            android:paddingLeft="3dp"
+            android:singleLine="true"
+            android:paddingRight="3dp" >
+        </EditText>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:weightSum="1" >
+
+        <EditText
+            android:id="@+id/et_email_id"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:hint="Email"
+            android:imeOptions="actionNext"
+            android:inputType="textEmailAddress"
+            android:background="@xml/rounded_input_box"
+            android:paddingLeft="3dp"
+            android:singleLine="true"
+            android:paddingRight="3dp" >
+        </EditText>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:weightSum="1" >
+
+        <EditText
+            android:id="@+id/et_name"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:hint="Full Name"
+            android:imeOptions="actionNext"
+            android:inputType="text"
             android:background="@xml/rounded_input_box"
             android:paddingLeft="3dp"
             android:singleLine="true"

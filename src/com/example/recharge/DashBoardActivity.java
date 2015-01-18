@@ -47,7 +47,7 @@ public class DashBoardActivity extends BaseActivity {
 			break;
 		case R.id.ll_transhistory:
 
-			mIntent = new Intent(DashBoardActivity.this, ServiceActivity.class);
+			mIntent = new Intent(DashBoardActivity.this, TransactionHistory.class);
 			startActivity(mIntent);
 
 			break;

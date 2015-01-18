@@ -36,6 +36,7 @@
         android:paddingTop="10dp" >
 
         <LinearLayout
+            android:id="@+id/ll_start_date"
             android:layout_width="fill_parent"
             android:layout_height="40dp"
             android:layout_marginTop="10dp"
@@ -51,7 +52,7 @@
                 android:gravity="center|left" >
 
                 <TextView
-                    android:id="@+id/spinner_services"
+                    android:id="@+id/tv_start_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@color/cachecolor"
@@ -66,11 +67,18 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"
-                android:layout_weight=".25" >
+                android:layout_weight=".25"
+                android:gravity="center" >
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/date_icon" />
             </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/ll_end_date"
             android:layout_width="fill_parent"
             android:layout_height="40dp"
             android:layout_marginTop="20dp"
@@ -86,7 +94,7 @@
                 android:gravity="center|left" >
 
                 <TextView
-                    android:id="@+id/spinner_services"
+                    android:id="@+id/tv_end_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@color/cachecolor"
@@ -101,26 +109,29 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"
-                android:layout_weight=".25" >
+                android:layout_weight=".25"
+                android:gravity="center" >
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/date_icon" />
             </LinearLayout>
         </LinearLayout>
 
         <Spinner
-            android:id="@+id/spinner_services"
+            android:id="@+id/spinner_transtion_history"
             android:layout_width="fill_parent"
             android:layout_height="40dp"
             android:layout_marginTop="20dp"
-            android:background="@color/cachecolor"
             android:entries="@array/recharge_history_array"
             android:prompt="@string/select_entry_option"
             android:textColor="#000000" />
 
         <Button
-            android:id="@+id/btn_dth_recharge"
+            android:id="@+id/btn_history_search"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
             android:layout_marginTop="30dp"
             android:background="@drawable/green_button"
             android:text="Search"
@@ -128,11 +139,15 @@
             android:textSize="24sp"
             android:textStyle="bold" />
 
-        <ListView
-            android:layout_width="fill_parent"
+        <LinearLayout
+            android:id="@+id/ll_history_list"
+            android:layout_width="match_parent"
             android:layout_height="fill_parent"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical"
             android:cacheColorHint="@null" >
-        </ListView>
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>

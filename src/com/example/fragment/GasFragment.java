@@ -6,6 +6,8 @@ import java.util.Calendar;
 import java.util.List;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -22,7 +24,9 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.constant.Constant;
+import com.example.dialog.MobileRechargeDialog;
 import com.example.fragment.AntivirusFragment.AntivirusAsyanTask;
+import com.example.fragment.ElectricityFragment.ElectricityAsyanTask;
 import com.example.network.RechargeHttpClient;
 import com.example.recharge.BaseActivity;
 import com.example.recharge.R;
@@ -120,14 +124,44 @@ public class GasFragment extends Fragment implements OnClickListener{
 		// TODO Auto-generated method stub
 		if(v == btn_gas_recharge){
 			if(validateGasRecharge(et_gas_service_no.getText().toString().trim(),et_gas_amount.getText().toString().trim())){
-				if(base.app.getUserinfo().mode == 1){
-					new GasAsyanTask().execute();
-				}else{
-					Calendar c = Calendar.getInstance();
-					SimpleDateFormat df = new SimpleDateFormat("ddMMyyyy");
-			        String formattedDate = df.format(c.getTime());
-					base.sendOfflineSMS(operator_code+" "+et_gas_service_no.getText().toString().trim()+" "+et_gas_amount.getText().toString().trim() +" "+formattedDate);
-				}
+				
+				
+
+				AlertDialog.Builder alert = new AlertDialog.Builder(base);
+				alert.setMessage("Are you sure, you want to recharge now?");
+				alert.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.dismiss();
+						if(base.app.getUserinfo().mode == 1){
+							new GasAsyanTask().execute();
+						}else{
+							Calendar c = Calendar.getInstance();
+							SimpleDateFormat df = new SimpleDateFormat("ddMMyyyy");
+					        String formattedDate = df.format(c.getTime());
+							base.sendOfflineSMS(operator_code+" "+et_gas_service_no.getText().toString().trim()+" "+et_gas_amount.getText().toString().trim() +" "+formattedDate);
+						}
+											
+						
+					}
+				});
+				
+				alert.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						
+						dialog.dismiss();
+					}
+				});
+				alert.show();
+				
+				
+				
+				
+				
+				
 			}
 		}
 	}
@@ -155,10 +189,15 @@ public class GasFragment extends Fragment implements OnClickListener{
 		protected void onPostExecute(Boolean result) {
 			base.dismissProgressDialog();
 			if (result) {
-				Toast.makeText(base, "Success....", 5000).show();
+				et_gas_service_no.setText("");
+				et_gas_amount.setText("");
+				new MobileRechargeDialog(base, true, st[1], st[2], st[3], st[4], st[8]).show();
+				
+				
 			} else {
-				Toast.makeText(base, "Failed.... "+st[1], 5000).show();
-			}
+				
+				new MobileRechargeDialog(base, false, st[1]).show();
+				}
 		}		
 	}
 
@@ -177,8 +216,9 @@ public class GasFragment extends Fragment implements OnClickListener{
 	}
 	
 	public String getParams() {
-		//return "tokenkey=" + base.app.getUserinfo().token + "&website=rechargedive.com" + "&optcode="+product_code + "&amount="+recharge_amount + "&route="+route_value;
-		return null;
+		String serviceNo = et_gas_service_no.getText().toString().trim();
+		String amount = et_gas_amount.getText().toString().trim();
+		return "tokenkey="+base.app.getUserinfo().token+"&website=rechargedive.com&optcode="+operator_code+"&service="+serviceNo+"&amount="+amount+"&route="+route_value;
 	}
 	  
 }
