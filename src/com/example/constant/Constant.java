@@ -6,6 +6,8 @@ public class Constant {
 	public static final String GET_TOKEN = BASE_URL + "getkey.php?";
 	public static final String PROFILE = BASE_URL + "profile.php?";
 	public static final String DISPUTE = BASE_URL + "dispute.php?";
+	public static final String STATISTICS = BASE_URL + "stats.php?";
+	public static final String TRANSACTION = BASE_URL + "history.php?";
 	public static final String SERVICE = BASE_URL + "dorc.php?";
 	public static final int ONLINE = 1;
 	public static final int OFFLINE = 2;

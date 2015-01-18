@@ -55,7 +55,6 @@ public class ProfileActivity extends BaseActivity {
 					return false;
 				}
 			}
-
 			return false;
 		}
 
@@ -78,7 +77,8 @@ public class ProfileActivity extends BaseActivity {
 					public void onClick(DialogInterface dialog, int which) {
 						ProfileActivity.this.finish();
 					}
-				});
+				})
+				.show();
 			}
 		}
 	}
@@ -86,7 +86,6 @@ public class ProfileActivity extends BaseActivity {
 	public String getParams() {
 		return "tokenkey=" + app.getUserinfo().token + "&website=rechargedive.com";
 	}
-	
 	
     @Override  
     public boolean onCreateOptionsMenu(Menu menu) {  

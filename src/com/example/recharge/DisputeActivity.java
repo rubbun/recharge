@@ -6,6 +6,7 @@ import com.example.network.RechargeHttpClient;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.DialogInterface.OnClickListener;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
@@ -65,19 +66,33 @@ public class DisputeActivity extends BaseActivity{
 					return true;
 				}
 			}
-
 			return false;
 		}
 
 		protected void onPostExecute(Boolean result) {
 			dismissProgressDialog();
 			if (result) {
-				Toast.makeText(getApplicationContext(), "Successfully Submit Order", Toast.LENGTH_LONG).show();
-			} else {
-				Toast.makeText(getApplicationContext(), "failed to Submit Order", Toast.LENGTH_LONG).show();
+				showDialog("Successfully Submit Order");
+				et_order_number.setText("");
 				
+			} else {
+				showDialog("Failed to Submit Order");
+				et_order_number.setText("");
 			}
 		}
+	}
+	public void showDialog(String message){
+		new AlertDialog.Builder(DisputeActivity.this)
+		.setTitle("Alert Message")
+		.setMessage(message)
+		.setPositiveButton("Ok", new OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.cancel();
+			}
+		})
+		.show();
 	}
 
 	public String getParams() {

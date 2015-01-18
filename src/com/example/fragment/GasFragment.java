@@ -20,15 +20,16 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.constant.Constant;
 import com.example.dialog.MobileRechargeDialog;
-import com.example.fragment.AntivirusFragment.AntivirusAsyanTask;
-import com.example.fragment.ElectricityFragment.ElectricityAsyanTask;
 import com.example.network.RechargeHttpClient;
 import com.example.recharge.BaseActivity;
+import com.example.recharge.IDateDialog;
 import com.example.recharge.R;
 
 @SuppressLint("ValidFragment")
@@ -46,8 +47,13 @@ public class GasFragment extends Fragment implements OnClickListener{
 	public List<String> routeList = new ArrayList<String>();
 	private String st[] ;
 	
-	public GasFragment(BaseActivity base){
+	private LinearLayout ll_date;
+	private TextView tv_date;
+	private IDateDialog datelistener;
+	
+	public GasFragment(BaseActivity base ,IDateDialog datelistener){
 	this.base  = base;	
+	this.datelistener = datelistener;
 	}
 	
 	@Override
@@ -115,7 +121,14 @@ public class GasFragment extends Fragment implements OnClickListener{
 		et_gas_amount = (EditText)v.findViewById(R.id.et_gas_amount) ;
 		
 		btn_gas_recharge.setOnClickListener(this);
-		
+		ll_date = (LinearLayout)v.findViewById(R.id.ll_date);
+		ll_date.setOnClickListener(this);
+		tv_date = (TextView)v.findViewById(R.id.tv_date);
+		if(base.app.getUserinfo().mode == 1){
+			ll_date.setVisibility(View.GONE);
+		}else{
+			ll_date.setVisibility(View.VISIBLE);
+		}
 		return v;
 	}
 
@@ -137,10 +150,16 @@ public class GasFragment extends Fragment implements OnClickListener{
 						if(base.app.getUserinfo().mode == 1){
 							new GasAsyanTask().execute();
 						}else{
-							Calendar c = Calendar.getInstance();
-							SimpleDateFormat df = new SimpleDateFormat("ddMMyyyy");
-					        String formattedDate = df.format(c.getTime());
-							base.sendOfflineSMS(operator_code+" "+et_gas_service_no.getText().toString().trim()+" "+et_gas_amount.getText().toString().trim() +" "+formattedDate);
+							
+							if(tv_date.getText().toString().trim().equalsIgnoreCase("Enter Due Date")){
+								Toast.makeText(base, "Please enter Date", 5000).show();
+							}else{
+								base.sendOfflineSMS(operator_code+" "+et_gas_service_no.getText().toString().trim()+" "+et_gas_amount.getText().toString().trim() +" "+tv_date.getText().toString().trim().replaceAll("-", ""));
+							}
+							
+							
+							
+							
 						}
 											
 						
@@ -163,6 +182,10 @@ public class GasFragment extends Fragment implements OnClickListener{
 				
 				
 			}
+		}
+		
+		if(v == ll_date){
+			datelistener.onDateset(tv_date);
 		}
 	}
 	

@@ -1,9 +1,17 @@
 package com.example.recharge;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -14,6 +22,10 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.adapter.TransHistoryAdapter;
+import com.example.bean.HistoryBean;
+import com.example.constant.Constant;
 
 public class TransactionHistory extends BaseActivity {
 
@@ -32,8 +44,13 @@ public class TransactionHistory extends BaseActivity {
 	private int current_month;
 	private int current_day;
 	
+	private String start_date,end_date;
+	
 	private int selection_type = 0; 
 	String selection_value = null;
+	
+	private TransHistoryAdapter adapter;
+	private ArrayList<HistoryBean> arrayList = new ArrayList<HistoryBean>();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -92,46 +109,67 @@ public class TransactionHistory extends BaseActivity {
 			if(!tv_start_date.getText().toString().trim().contains("-")){
 				Toast.makeText(TransactionHistory.this, "Plesae select a start date",6000).show();
 			}else if(!tv_end_date.getText().toString().trim().contains("-")){
-				Toast.makeText(TransactionHistory.this, "Plesae select a start date",6000).show();
-			}else if(checkDateValidation() == 1){
-				Toast.makeText(TransactionHistory.this, "Start Date Can't greater than End date",6000).show();;
+				Toast.makeText(TransactionHistory.this, "Plesae select a end date",6000).show();
 			}else{
-				
+				int status = checkDateValidation();
+				if(status == 1){
+					showAlertMessage("Start Date Can't greater than End date");
+				}else if(status == 2){
+					showAlertMessage("Start Date Can't greater than Current date");
+					//Toast.makeText(TransactionHistory.this, "Start Date Can't greater than Current date",6000).show();
+				}else if(status == 3){
+					showAlertMessage("End Date Can't greater than Current date");
+					//Toast.makeText(TransactionHistory.this, "End Date Can't greater than Current date",6000).show();
+				}else{
+					
+				}
 			}
 			break;
 		}
+	}
+	
+	public void showAlertMessage(String failedMessage){
+		new AlertDialog.Builder(TransactionHistory.this)
+		.setTitle("Alert Message")
+		.setMessage(failedMessage)
+		.setPositiveButton("Ok", new OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.cancel();
+			}
+		})
+		.show();
 	}
 
 	private int checkDateValidation() {
 	
 		int status = 0;
-		String start_date = tv_start_date.getText().toString().trim();
-		String end_date = tv_start_date.getText().toString().trim();
-		System.out.println("!!start date: int"+Integer.parseInt(start_date[0]));
+		start_date = tv_start_date.getText().toString().trim();
+		end_date = tv_end_date.getText().toString().trim();
+		String current_date = new StringBuilder().append(current_year)
+                .append("-").append(current_month + 1).append("-").append(current_day)
+                .append(" ").toString().trim();
 		
-		int start_year = Integer.parseInt(start_date[0]);
-		int end_year = Integer.parseInt(start_date[1]);
+		System.out.println("!!current date:"+current_date);
 		
-		int start_month = Integer.parseInt(start_date[0]);
-		int end_month = Integer.parseInt(start_date[1]);
-		
-		int start_day = Integer.parseInt(start_date[0]);
-		int end_day = Integer.parseInt(start_date[1]);
-		
-		if(start_year > current_year){
-			status = 2;
-		}else if(end_year > current_year){
-			status = 2;
-		}else if((current_year == start_year) && ()){
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-mm-dd");
+		try {
+			Date firstDate = formatter.parse(start_date);
+			Date endDate = formatter.parse(end_date);
+			Date currentDate = formatter.parse(current_date);
 			
-		}
-		if(start_year > end_year){
-			status = 1;
-		}else if((start_year == end_year) && (start_month > end_month)){
-			status = 1;
-		}else if((start_year == end_year) && (start_month == end_month) && (start_day > end_day)){
-			status = 1;
-		}
+			if(currentDate.compareTo(firstDate)< 0){
+				status = 2;
+			}else if(currentDate.compareTo(endDate)< 0){
+				status = 3;
+				
+			}else if(endDate.compareTo(firstDate)< 0){
+				status = 1;
+			}
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}	
 		return status;
 	}
 
@@ -172,4 +210,32 @@ public class TransactionHistory extends BaseActivity {
             }
            }
         };
+        
+        public class FetchTransactionList extends AsyncTask<Void, Void, Void>{
+
+        	@Override
+        	protected void onPreExecute() {
+        		super.onPreExecute();
+        		showProgressDailog();
+        	}
+			@Override
+			protected Void doInBackground(Void... params) {
+				String url = Constant.DISPUTE + getParams();
+				
+				return null;
+			}
+        
+			@Override
+			protected void onPostExecute(Void result) {
+				super.onPostExecute(result);
+				dismissProgressDialog();
+			}
+        }
+        
+        public String getParams() {
+
+        	//String fdate = end_date
+    		//return "website=rechargedive.com&tokenkey="+app.getUserinfo().token+"&fdate="+ordernumber;
+        	return null;
+    	}
 }

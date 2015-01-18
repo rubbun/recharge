@@ -146,7 +146,7 @@ public class LandlineFragment extends Fragment implements OnClickListener{
 					if(base.app.getUserinfo().mode == 1){
 						new LandlineAsyanTask().execute();
 					}else{
-						base.sendOfflineSMS(sub_id+" "+et_insurance_landline_no.getText().toString().trim()+" "+et_landline_amount.getText().toString().trim()+" "+et_landline_acc_no.getText().toString().trim()+et_insurance_std_code.getText().toString().trim());	
+						base.sendOfflineSMS(sub_id+" "+et_insurance_landline_no.getText().toString().trim()+" "+et_landline_amount.getText().toString().trim()+" "+et_landline_acc_no.getText().toString().trim()+" "+et_insurance_std_code.getText().toString().trim());	
 					}
 					
 				}

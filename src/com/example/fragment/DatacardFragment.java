@@ -151,7 +151,7 @@ public class DatacardFragment extends Fragment implements OnClickListener{
 						if(base.app.getUserinfo().mode == 1){
 							new DatacardAsyanTask().execute();
 						}else{
-							base.sendOfflineSMS(product_code+" "+et_datacard_amount.getText().toString().trim()+" "+et_datacard_phone.getText().toString().trim());
+							base.sendOfflineSMS(product_code+" "+et_datacard_phone.getText().toString().trim()+" "+et_datacard_amount.getText().toString().trim());
 						}	
 						
 					}

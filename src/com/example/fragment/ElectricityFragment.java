@@ -19,7 +19,9 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.constant.Constant;
@@ -28,6 +30,7 @@ import com.example.fragment.GasFragment.GasAsyanTask;
 import com.example.fragment.PostpaidFragment.PostPaidAsyanTask;
 import com.example.network.RechargeHttpClient;
 import com.example.recharge.BaseActivity;
+import com.example.recharge.IDateDialog;
 import com.example.recharge.R;
 
 @SuppressLint("ValidFragment")
@@ -43,9 +46,16 @@ public class ElectricityFragment extends Fragment implements OnClickListener{
 	public List<String> operatorList = new ArrayList<String>();
 	public List<String> routeList = new ArrayList<String>();
 	private String st[] ;
+	private LinearLayout ll_date;
+	private TextView tv_date;
+	private IDateDialog datelistener;
 	
-	public ElectricityFragment(BaseActivity base){
-	this.base  = base;	
+
+	
+	public ElectricityFragment(BaseActivity base,IDateDialog datelistener){
+	this.base  = base;
+	this.datelistener = datelistener;
+	
 	}
 	
 	@Override
@@ -144,7 +154,14 @@ public class ElectricityFragment extends Fragment implements OnClickListener{
 		et_electricity_service_no = (EditText)v.findViewById(R.id.et_electricity_service_no) ;
 		
 		btn_electricity_recharge.setOnClickListener(this);
-		
+		ll_date = (LinearLayout)v.findViewById(R.id.ll_date);
+		ll_date.setOnClickListener(this);
+		tv_date = (TextView)v.findViewById(R.id.tv_date);
+		if(base.app.getUserinfo().mode == 1){
+			ll_date.setVisibility(View.GONE);
+		}else{
+			ll_date.setVisibility(View.VISIBLE);
+		}
 		return v;
 	}
 
@@ -168,7 +185,13 @@ public class ElectricityFragment extends Fragment implements OnClickListener{
 						if(base.app.getUserinfo().mode == 1){
 							new ElectricityAsyanTask().execute();
 						}else{
-							base.sendOfflineSMS(product_code+" "+et_electricity_service_no.getText().toString().trim()+" "+et_electricity_amount.getText().toString().trim());
+							
+							if(tv_date.getText().toString().trim().equalsIgnoreCase("Enter Due Date")){
+								Toast.makeText(base, "Please enter Date", 5000).show();
+							}else{
+								base.sendOfflineSMS(product_code+" "+et_electricity_service_no.getText().toString().trim()+" "+et_electricity_amount.getText().toString().trim()+" "+tv_date.getText().toString().trim().replaceAll("-", ""));
+							}
+							
 						}						
 						
 					}
@@ -189,6 +212,10 @@ public class ElectricityFragment extends Fragment implements OnClickListener{
 				
 				
 			}
+		}
+		
+		if(v == ll_date){
+			datelistener.onDateset(tv_date);
 		}
 	}
 	

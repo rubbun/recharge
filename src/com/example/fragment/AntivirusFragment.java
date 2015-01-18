@@ -159,7 +159,7 @@ public class AntivirusFragment extends Fragment implements OnClickListener{
 							if(base.app.getUserinfo().mode == 1){
 								new AntivirusAsyanTask().execute();
 							}else{
-								base.sendOfflineSMS(product_code+" ");
+								base.sendOfflineSMS(product_code+" "+et_customer_mobile.getText().toString().trim()+" "+et_email_id.getText().toString().trim()+" "+et_name.getText().toString().trim());
 							}
 							
 						}
