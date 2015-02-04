@@ -12,7 +12,7 @@ public class Constant {
 	public static final String LOGOUT = BASE_URL + "logout.php?";
 	public static final int ONLINE = 1;
 	public static final int OFFLINE = 2;
-	public static final String OFFLINE_MOBILE_NO = "9999999999";
+	public static final String OFFLINE_MOBILE_NO = "9650304925";
 
 	public enum values {
 		USRINFO, TOKEN, MODE;

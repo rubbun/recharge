@@ -50,6 +50,7 @@
                 android:layout_marginTop="10dp"
                 android:entries="@array/electricity_operator_option_arrays"
                 android:prompt="@string/select_electricity_operator_option"
+                android:spinnerMode="dialog"
                 android:textColorHint="#000000" />
         </LinearLayout>
 
@@ -71,6 +72,61 @@
                 android:paddingRight="3dp"
                 android:singleLine="true" >
             </EditText>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/ll_city"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="20dp"
+            android:weightSum="1"
+            android:visibility="visible" >
+
+            <Spinner
+                android:id="@+id/sp_electricity_city"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:entries="@array/electric_bill_city"
+                android:spinnerMode="dialog"
+                android:prompt="@string/city"
+                android:textColorHint="#000000" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/ll_billing_unit"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="20dp"
+            android:weightSum="1"
+            android:visibility="visible" >
+
+            <Spinner
+                android:id="@+id/sp_electricity_billing_unit"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:entries="@array/billing_unit_arr"
+                android:prompt="@string/billing_unit"
+                android:spinnerMode="dialog"
+                android:textColorHint="#000000" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_processing_cycle"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="20dp"
+            android:weightSum="1"
+            android:visibility="visible" >
+
+            <Spinner
+                android:id="@+id/sp_electricity_processing_cycle"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:entries="@array/electric_bill_processing_cycle"
+                android:prompt="@string/processing_cycle"
+                android:spinnerMode="dialog"
+                android:textColorHint="#000000" />
         </LinearLayout>
 
         <LinearLayout

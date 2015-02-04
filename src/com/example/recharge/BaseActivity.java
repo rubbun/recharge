@@ -9,6 +9,7 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.telephony.SmsManager;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Toast;
@@ -27,6 +28,7 @@ public class BaseActivity extends FragmentActivity implements OnClickListener {
 		app = (Appsettings) getApplication();
 		
 		app.setUserinfo(new UserInfo(this));
+		Log.e("------------",app.getUserinfo().token);
 	}
 
 	public void showProgressDailog() {

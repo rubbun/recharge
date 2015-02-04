@@ -49,7 +49,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:prompt="@string/select_dth_operator_option"
-            android:entries="@array/dth_operator_option_arrays"            
+            android:entries="@array/dth_operator_option_arrays"  
+            android:spinnerMode="dialog"          
             android:textColorHint="#000000" />
     </LinearLayout>
 
@@ -88,7 +89,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:prompt="@string/select_datacard_route_option"
-            android:entries="@array/root_array_option"            
+            android:entries="@array/root_array_option"  
+            android:spinnerMode="dialog"          
             android:textColorHint="#000000" />
     </LinearLayout>
 

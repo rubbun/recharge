@@ -19,6 +19,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
@@ -135,6 +136,7 @@ public class TransactionHistory extends BaseActivity {
 					showAlertMessage("End Date Can't greater than Current date");
 					//Toast.makeText(TransactionHistory.this, "End Date Can't greater than Current date",6000).show();
 				}else{
+					arrayList.clear();
 					new FetchTransactionList().execute();
 				}
 			}
@@ -255,7 +257,7 @@ public class TransactionHistory extends BaseActivity {
 			        	}
 			        	
 			        	Elements tds = trs.get(i).select("td");
-			        	for(int j=0 ;j<tds.size(); j++){
+			        	for(int j=0 ;j<1; j++){
 			        		
 			        		String order_id= tds.get(0).text();
 			        		String operator= tds.get(1).text();
@@ -291,6 +293,7 @@ public class TransactionHistory extends BaseActivity {
         }
         
         private void showLListDialog() {
+        	
         	final Dialog customDialog = new Dialog(TransactionHistory.this);
         	customDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         	customDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));

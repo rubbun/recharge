@@ -54,19 +54,19 @@ public class TransHistoryAdapter extends ArrayAdapter<HistoryBean>{
 			mHolder =  (ViewHolder) v.getTag();
 		}
 	
-		final HistoryBean bean = mItems.get(position);
-		if(bean != null){
-			mHolder.mOrderId.setText(bean.getOrder_id());
-			mHolder.mOperator.setText(bean.getOperator());
-			mHolder.mServiceNo.setText(bean.getService_no());
-			mHolder.mAmount.setText(bean.getAmount());
-			mHolder.mStatus.setText(bean.getStatus());
-			mHolder.mDateTime.setText(bean.getDate_time());
-			mHolder.mProfit.setText(bean.getProfit());
-			mHolder.mOptId.setText(bean.getOptId());
-			mHolder.mDetails.setText(bean.getDetail());
+		//final HistoryBean bean = mItems.get(position);
+		//if(bean != null){
+			mHolder.mOrderId.setText(mItems.get(position).getOrder_id());
+			mHolder.mOperator.setText(mItems.get(position).getOperator());
+			mHolder.mServiceNo.setText(mItems.get(position).getService_no());
+			mHolder.mAmount.setText(mItems.get(position).getAmount());
+			mHolder.mStatus.setText(mItems.get(position).getStatus());
+			mHolder.mDateTime.setText(mItems.get(position).getDate_time());
+			mHolder.mProfit.setText(mItems.get(position).getProfit());
+			mHolder.mOptId.setText(mItems.get(position).getOptId());
+			mHolder.mDetails.setText(mItems.get(position).getDetail());
 			
-		}	
+		//}	
 		
 		return v;
 	}

@@ -123,7 +123,7 @@ public class InsuranceFragment extends Fragment implements OnClickListener{
 		ll_date.setOnClickListener(this);
 		tv_date = (TextView)v.findViewById(R.id.tv_date);
 		if(base.app.getUserinfo().mode == 1){
-			ll_date.setVisibility(View.GONE);
+			ll_date.setVisibility(View.VISIBLE);
 		}else{
 			ll_date.setVisibility(View.VISIBLE);
 		}
@@ -229,6 +229,9 @@ public class InsuranceFragment extends Fragment implements OnClickListener{
 		}else if(et_insurance_amount.getText().toString().trim().length() == 0){
 			et_insurance_amount.setError("Please enter amount");
 			return false;
+		}else if(tv_date.getText().toString().trim().equalsIgnoreCase("Enter Due Date")){
+			Toast.makeText(base, "Please enter Date", 5000).show();
+			return false;
 		}
 		return true;
 	}
@@ -236,6 +239,6 @@ public class InsuranceFragment extends Fragment implements OnClickListener{
 	public String getParams() {
 		String serviceNo = et_insurance_service_no.getText().toString().trim();
 		String amount = et_insurance_amount.getText().toString().trim();
-		return "tokenkey="+base.app.getUserinfo().token+"&website=rechargedive.com&optcode="+insurance_code+"&service="+serviceNo+"&amount="+amount+"&route="+route_value;
+		return "tokenkey="+base.app.getUserinfo().token+"&website=rechargedive.com&optcode="+insurance_code+"&service="+serviceNo+"&amount="+amount+"&route="+route_value+"&other1="+tv_date.getText().toString().trim().replaceAll("-", "");
 	}
 }

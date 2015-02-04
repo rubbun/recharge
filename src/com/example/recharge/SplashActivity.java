@@ -27,7 +27,7 @@ public class SplashActivity extends BaseActivity {
 	public void onClick(View arg0) {
 		switch (arg0.getId()) {
 		case R.id.btn_online:
-
+			//app.getUserinfo().setToken("204322670035966336");
 			if (app.getUserinfo().token.length() >1) {
 				/*app.getUserinfo().setToken("2102185047370587136");
 				app.getUserinfo().setMode(Constant.ONLINE);

@@ -20,6 +20,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.constant.Constant;
@@ -41,6 +42,7 @@ public class AntivirusFragment extends Fragment implements OnClickListener{
 	public List<String> productList = new ArrayList<String>();
 	public List<String> routeList = new ArrayList<String>();
 	private String st[] ;
+	private TextView tv_price;
 	
 	private int price;
 	public static final String EMAIL_PATTERN ="^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
@@ -56,7 +58,7 @@ public class AntivirusFragment extends Fragment implements OnClickListener{
 		View v = inflater.inflate(R.layout.fragment_antivirus, container, false);
 		
 		btn_antivirus_recharge = (Button)v.findViewById(R.id.btn_antivirus_recharge) ;
-		
+		tv_price = (TextView)v.findViewById(R.id.tv_price);
 		String[] product_array = getResources().getStringArray(R.array.antivirus_products_option_arrays);
 		for (int i = 0; i < product_array.length; i++) {
 			productList.add(product_array[i]);
@@ -102,6 +104,7 @@ public class AntivirusFragment extends Fragment implements OnClickListener{
 					price = 1249;
 					product_code = "QH8";
 				}
+				tv_price.setText("M.R.P: "+price);
 			}
 			@Override
 			public void onNothingSelected(AdapterView<?> arg0) {
@@ -229,7 +232,8 @@ public class AntivirusFragment extends Fragment implements OnClickListener{
 		String mobile = et_customer_mobile.getText().toString().trim();
 		String email = et_email_id.getText().toString().trim();
 		String name = et_name.getText().toString().trim();
-		return "tokenkey=" + base.app.getUserinfo().token + "&website=rechargedive.com&optcode="+product_code+"&service="+mobile+"&amount="+price+"&route="+route_value+"&other1="+email+"&other2="+name.replaceAll(" ", "%20");
+		//return "tokenkey=" + base.app.getUserinfo().token + "&website=rechargedive.com&optcode="+product_code+"&service="+mobile+"&amount="+price+"&route="+route_value+"&other1="+email+"&other2="+name.replaceAll(" ", "%20");
+		return "tokenkey=" + base.app.getUserinfo().token + "&website=rechargedive.com&optcode="+product_code+"&service="+mobile+"&route="+route_value+"&other1="+email+"&other2="+name.replaceAll(" ", "%20");
 	}
 	
 	public boolean isvalid(){

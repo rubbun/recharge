@@ -1,122 +1,144 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView  xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center_horizontal"
-    android:orientation="vertical"
-    android:paddingBottom="10dp"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp"
-    android:paddingTop="30dp"
-    android:weightSum="1"
-    tools:ignore="HardcodedText" >
+    android:layout_height="match_parent" >
 
     <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="50dp"
-        android:weightSum="1" >
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="30dp"
+        android:weightSum="1"
+        tools:ignore="HardcodedText" >
 
-        <Spinner
-            android:id="@+id/sp_antivirus_product"
+        <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:prompt="@string/select_antivirus_products_option"
-            android:entries="@array/antivirus_products_option_arrays"
-            android:textColor="#000000" />
-    </LinearLayout>
+            android:layout_height="50dp"
+            android:weightSum="1" >
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="40dp"
-        android:layout_marginTop="20dp"
-        android:weightSum="1" >
+            <Spinner
+                android:id="@+id/sp_antivirus_product"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:entries="@array/antivirus_products_option_arrays"
+                android:prompt="@string/select_antivirus_products_option"
+                android:spinnerMode="dialog"
+                android:textColor="#000000" />
+        </LinearLayout>
 
-        <EditText
-            android:id="@+id/et_customer_mobile"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:hint="Customer Mobile"
-            android:imeOptions="actionNext"
-            android:inputType="number"
-            android:background="@xml/rounded_input_box"
-            android:paddingLeft="3dp"
-            android:singleLine="true"
-            android:paddingRight="3dp" >
-        </EditText>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="40dp"
-        android:layout_marginTop="20dp"
-        android:weightSum="1" >
-
-        <EditText
-            android:id="@+id/et_email_id"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:hint="Email"
-            android:imeOptions="actionNext"
-            android:inputType="textEmailAddress"
-            android:background="@xml/rounded_input_box"
-            android:paddingLeft="3dp"
-            android:singleLine="true"
-            android:paddingRight="3dp" >
-        </EditText>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="40dp"
-        android:layout_marginTop="20dp"
-        android:weightSum="1" >
-
-        <EditText
-            android:id="@+id/et_name"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:hint="Full Name"
-            android:imeOptions="actionNext"
-            android:inputType="text"
-            android:background="@xml/rounded_input_box"
-            android:paddingLeft="3dp"
-            android:singleLine="true"
-            android:paddingRight="3dp" >
-        </EditText>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="20dp"
-        android:weightSum="1" >
-
-        <Spinner
-            android:id="@+id/sp_antivirus_route"
+        <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:prompt="@string/select_antivirus_route_option"
-            android:entries="@array/root_array_option"
-            android:textColor="#000000"  />
+            android:layout_height="40dp"
+            android:layout_marginTop="20dp"
+            android:weightSum="1" >
+
+            <EditText
+                android:id="@+id/et_customer_mobile"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@xml/rounded_input_box"
+                android:hint="Customer Mobile"
+                android:imeOptions="actionNext"
+                android:inputType="number"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                android:singleLine="true" >
+            </EditText>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="20dp"
+            android:weightSum="1" >
+
+            <EditText
+                android:id="@+id/et_email_id"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@xml/rounded_input_box"
+                android:hint="Email"
+                android:imeOptions="actionNext"
+                android:inputType="textEmailAddress"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                android:singleLine="true" >
+            </EditText>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="20dp"
+            android:weightSum="1" >
+
+            <EditText
+                android:id="@+id/et_name"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@xml/rounded_input_box"
+                android:hint="Full Name"
+                android:imeOptions="actionNext"
+                android:inputType="text"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                android:singleLine="true" >
+            </EditText>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="20dp"
+            android:weightSum="1" >
+
+            <Spinner
+                android:id="@+id/sp_antivirus_route"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:entries="@array/root_array_option"
+                android:prompt="@string/select_antivirus_route_option"
+                android:spinnerMode="dialog"
+                android:textColor="#000000" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="20dp"
+            android:weightSum="1" >
+
+            <TextView
+                android:id="@+id/tv_price"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"               
+                android:background="@xml/rounded_input_box"
+                android:gravity="center|left"
+                android:paddingLeft="5dp"
+                android:text="M.R.P : 133"
+                android:textColor="#000000"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_antivirus_recharge"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/green_button"
+            android:text="Recharge"
+            android:textColor="#ffffff"
+            android:textSize="22sp"
+            android:textStyle="bold" />
     </LinearLayout>
 
-    <Button
-        android:id="@+id/btn_antivirus_recharge"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/green_button"
-        android:text="Recharge"
-        android:textColor="#ffffff"
-        android:textSize="22sp"
-        android:textStyle="bold" />
-
-</LinearLayout>
 </ScrollView>

@@ -48,6 +48,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:spinnerMode="dialog"
             android:prompt="@string/select_datacard_operator_option" />
     </LinearLayout>
 
@@ -85,6 +86,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:spinnerMode="dialog"
             android:entries="@array/root_array_option"
             android:prompt="@string/select_datacard_route_option" />
     </LinearLayout>

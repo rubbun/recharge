@@ -24,46 +24,45 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemSelectedListener;
 
 @SuppressWarnings("unused")
-public class LandlineFragment extends Fragment implements OnClickListener{
-	
+public class LandlineFragment extends Fragment implements OnClickListener {
+
 	private BaseActivity base;
-	
-	private Button btn_landline_recharge ;
-	private Spinner sp_landline_operator , sp_landline_route;
-	private EditText et_insurance_std_code,et_insurance_landline_no ,et_landline_acc_no,et_landline_amount;
+
+	private Button btn_landline_recharge;
+	private Spinner sp_landline_operator, sp_landline_route;
+	private EditText et_insurance_std_code, et_insurance_landline_no, et_landline_acc_no, et_landline_amount;
 	public List<String> operatorList = new ArrayList<String>();
 	public List<String> LandlineList = new ArrayList<String>();
 	public List<String> routeList = new ArrayList<String>();
-	private String sub_id,operator,std_code,landline_no,landline_acc_no,route_value,Landline_amount = null;
-	private String st[] ;
-	
-	public LandlineFragment(BaseActivity base){
-	this.base  = base;	
+	private String sub_id, operator, std_code, landline_no, landline_acc_no, route_value, Landline_amount = null;
+	private String st[];
+	private LinearLayout ll_account;
+
+	public LandlineFragment(BaseActivity base) {
+		this.base = base;
 	}
-	
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		
+
 		View v = inflater.inflate(R.layout.fragment_landline, container, false);
-		
-		
-		
-		btn_landline_recharge = (Button)v.findViewById(R.id.btn_landline_recharge) ;
-		sp_landline_operator = (Spinner)v.findViewById(R.id.sp_landline_operator) ;
-		sp_landline_route = (Spinner)v.findViewById(R.id.sp_landline_route) ;
-		et_insurance_std_code = (EditText)v.findViewById(R.id.et_insurance_std_code) ;
-		et_insurance_landline_no = (EditText)v.findViewById(R.id.et_insurance_landline_no) ;
-		et_landline_acc_no = (EditText)v.findViewById(R.id.et_landline_acc_no) ;
-		et_landline_amount = (EditText)v.findViewById(R.id.et_landline_amount) ;
-		
+
+		btn_landline_recharge = (Button) v.findViewById(R.id.btn_landline_recharge);
+		sp_landline_operator = (Spinner) v.findViewById(R.id.sp_landline_operator);
+		sp_landline_route = (Spinner) v.findViewById(R.id.sp_landline_route);
+		et_insurance_std_code = (EditText) v.findViewById(R.id.et_insurance_std_code);
+		et_insurance_landline_no = (EditText) v.findViewById(R.id.et_insurance_landline_no);
+		et_landline_acc_no = (EditText) v.findViewById(R.id.et_landline_acc_no);
+		et_landline_amount = (EditText) v.findViewById(R.id.et_landline_amount);
+		ll_account = (LinearLayout) v.findViewById(R.id.ll_account);
 		btn_landline_recharge.setOnClickListener(this);
-		
-		
+
 		String[] product_array = getResources().getStringArray(R.array.select_landline_operator_option);
 		for (int i = 0; i < product_array.length; i++) {
 			LandlineList.add(product_array[i]);
@@ -74,29 +73,37 @@ public class LandlineFragment extends Fragment implements OnClickListener{
 		sp_landline_operator.setOnItemSelectedListener(new OnItemSelectedListener() {
 
 			@Override
-			public void onItemSelected(AdapterView<?> arg0, View arg1,
-					int pos, long arg3) {
-				
-				if(pos == 0){
+			public void onItemSelected(AdapterView<?> arg0, View arg1, int pos, long arg3) {
+
+				if (pos == 0) {
 					sub_id = "ATL";
-				}else if(pos == 1){
+				} else if (pos == 1) {
 					sub_id = "BSL";
-				}else if(pos == 2){
+				} else if (pos == 2) {
 					sub_id = "RCOM";
-				}else if(pos == 3){
+				} else if (pos == 3) {
 					sub_id = "TIL";
-				}else if(pos == 4){
+				} else if (pos == 4) {
 					sub_id = "MTDL";
-				}else if(pos == 5){
+				} else if (pos == 5) {
 					sub_id = "TIK";
 				}
+
+				if (pos == 5) {
+					ll_account.setVisibility(View.GONE);
+					et_insurance_std_code.setVisibility(View.GONE);
+				} else {
+					ll_account.setVisibility(View.VISIBLE);
+					et_insurance_std_code.setVisibility(View.VISIBLE);
+				}
 			}
+
 			@Override
 			public void onNothingSelected(AdapterView<?> arg0) {
-				
+
 			}
 		});
-		
+
 		String[] route_array = getResources().getStringArray(R.array.root_array_option);
 		for (int i = 0; i < route_array.length; i++) {
 			routeList.add(route_array[i]);
@@ -107,21 +114,20 @@ public class LandlineFragment extends Fragment implements OnClickListener{
 		sp_landline_route.setOnItemSelectedListener(new OnItemSelectedListener() {
 
 			@Override
-			public void onItemSelected(AdapterView<?> arg0, View arg1,
-					int position, long arg3) {
-				if(position == 0){
+			public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long arg3) {
+				if (position == 0) {
 					route_value = "1";
-				}else if(position == 1){
+				} else if (position == 1) {
 					route_value = "2";
 				}
 			}
+
 			@Override
 			public void onNothingSelected(AdapterView<?> arg0) {
-			
+
 			}
 		});
-		
-		
+
 		return v;
 	}
 
@@ -129,65 +135,63 @@ public class LandlineFragment extends Fragment implements OnClickListener{
 	public void onClick(View arg0) {
 		// TODO Auto-generated method stub
 
-		if(validateLandlineRecharge(et_insurance_std_code.getText().toString().trim(),et_insurance_landline_no.getText().toString().trim(),
-				et_landline_acc_no.getText().toString().trim(),et_landline_amount.getText().toString().trim())){
-			
-			
-			
-			
+		if (validateLandlineRecharge(et_insurance_std_code.getText().toString().trim(), et_insurance_landline_no.getText().toString().trim(), et_landline_acc_no.getText().toString().trim(), et_landline_amount.getText().toString().trim())) {
+
 			AlertDialog.Builder alert = new AlertDialog.Builder(base);
 			alert.setMessage("Are you sure, you want to recharge now?");
 			alert.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-				
+
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					dialog.dismiss();
 					Landline_amount = et_landline_amount.getText().toString().trim();
-					if(base.app.getUserinfo().mode == 1){
+					if (base.app.getUserinfo().mode == 1) {
 						new LandlineAsyanTask().execute();
-					}else{
-						base.sendOfflineSMS(sub_id+" "+et_insurance_landline_no.getText().toString().trim()+" "+et_landline_amount.getText().toString().trim()+" "+et_landline_acc_no.getText().toString().trim()+" "+et_insurance_std_code.getText().toString().trim());	
+					} else {
+						if (sub_id.equals("TIK")) {
+							base.sendOfflineSMS(sub_id + " " + et_insurance_landline_no.getText().toString().trim() + " " + et_landline_amount.getText().toString().trim());
+						} else {
+							base.sendOfflineSMS(sub_id + " " + et_insurance_landline_no.getText().toString().trim() + " " + et_landline_amount.getText().toString().trim() + " " + et_landline_acc_no.getText().toString().trim() + " " + et_insurance_std_code.getText().toString().trim());
+						}
 					}
-					
+
 				}
 			});
-			
+
 			alert.setNegativeButton("NO", new DialogInterface.OnClickListener() {
-				
+
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
-					
+
 					dialog.dismiss();
 				}
 			});
 			alert.show();
-			
-			
-			
-			
-			
+
 		}
-	
+
 	}
-	
-	private boolean validateLandlineRecharge(String std_code,String land_no,String acc_no,String amount) {
-		if(std_code.length()==0){
+
+	private boolean validateLandlineRecharge(String std_code, String land_no, String acc_no, String amount) {
+		if (std_code.length() == 0 && (!sub_id.equalsIgnoreCase("TIK"))) {
+
 			et_insurance_std_code.setError("Please enter valid Std Code");
 			return false;
-		}else if(land_no.length()==0){
+
+		} else if (land_no.length() == 0) {
 			et_insurance_landline_no.setError("Please enter Landline No");
 			return false;
-		}else if(acc_no.length()==0){
+		} else if (acc_no.length() == 0 && (!sub_id.equalsIgnoreCase("TIK"))) {
 			et_landline_acc_no.setError("Please enter Account No");
 			return false;
-		}else if(amount.length()==0){
+		} else if (amount.length() == 0) {
 			et_landline_amount.setError("Please enter Amount");
 			return false;
 		}
 		return true;
-	}  
-	
-	public class LandlineAsyanTask extends AsyncTask<Void, Void, Boolean>{
+	}
+
+	public class LandlineAsyanTask extends AsyncTask<Void, Void, Boolean> {
 
 		protected void onPreExecute() {
 			base.showProgressDailog();
@@ -196,12 +200,12 @@ public class LandlineFragment extends Fragment implements OnClickListener{
 		protected Boolean doInBackground(Void... params) {
 
 			String url = Constant.SERVICE + getParams();
-			System.out.println("!! "+url);
+			System.out.println("!! " + url);
 			String response = RechargeHttpClient.SendHttpPost(url);
 			st = response.split(",");
 			if (response != null) {
 				if (response.startsWith("SUCCESS")) {
-					
+
 					return true;
 				}
 			}
@@ -216,22 +220,28 @@ public class LandlineFragment extends Fragment implements OnClickListener{
 				et_landline_acc_no.setText("");
 				et_insurance_std_code.setText("");
 				new MobileRechargeDialog(base, true, st[1], st[2], st[3], st[4], st[8]).show();
-				
-				
+
 			} else {
-				
+
 				new MobileRechargeDialog(base, false, st[1]).show();
-						}
-		}		
+			}
+		}
 	}
-	
+
 	public String getParams() {
-		
+
 		String service = et_insurance_landline_no.getText().toString().trim();
 		String amount = et_landline_amount.getText().toString().trim();
 		String ac = et_landline_acc_no.getText().toString().trim();
 		String std = et_insurance_std_code.getText().toString().trim();
-		return "tokenkey="+base.app.getUserinfo().token+"&website=rechargedive.com&optcode="+sub_id+"&service="+service+"&amount="+amount+"&route="+route_value+"&other1="+ac+"&other2="+std;
+		if (sub_id.equals("TIK")) {
+			return "tokenkey=" + base.app.getUserinfo().token + "&website=rechargedive.com&optcode=" + sub_id + "&service=" + service + "&amount=" + amount + "&route=" + route_value;
+
+		} else {
+			return "tokenkey=" + base.app.getUserinfo().token + "&website=rechargedive.com&optcode=" + sub_id + "&service=" + service + "&amount=" + amount + "&route=" + route_value + "&other1=" + ac + "&other2=" + std;
+
+		}
 	}
-	//SUCCESS,RE16317232,AIRTEL LANDLINE,2451577,100,SUCCESS,DL51184454,230/0,January 18 2015 01:38:40 PM  
+	// SUCCESS,RE16317232,AIRTEL
+	// LANDLINE,2451577,100,SUCCESS,DL51184454,230/0,January 18 2015 01:38:40 PM
 }

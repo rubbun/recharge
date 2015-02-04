@@ -48,6 +48,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:spinnerMode="dialog"
             android:prompt="@string/select_postpaid_operator_option" />
     </LinearLayout>
 
@@ -86,6 +87,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:entries="@array/root_array_option"
+            android:spinnerMode="dialog"
             android:prompt="@string/select_postpaid_route_option" />
     </LinearLayout>
 
